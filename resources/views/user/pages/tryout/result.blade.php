@@ -127,14 +127,7 @@
                 <i class="ri-book-open-line mr-2"></i>Pembahasan
             </a>
 
-            {{-- Certificate Download Button for Certification Full --}}
-            @if($tryout->is_certification && ($tryout->type_tryout === 'certification' || $tryout->type_tryout ===
-            'computer'))
-            <a href="{{ route('user.certificate.preview', [$package->package_id, $tryout->tryout_id, 'token' => $latestAttemptToken]) }}"
-                class="px-4 py-2 border border-primary text-primary rounded-lg hover:bg-primary hover:text-white transition-colors">
-                <i class="ri-award-line mr-2"></i>Unduh Sertifikat
-            </a>
-            @endif
+            
 
             @else
             <a href="{{ route('user.event.index') }}"

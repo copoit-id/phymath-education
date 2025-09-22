@@ -157,13 +157,7 @@
             class="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors">
             <i class="ri-arrow-left-line mr-2"></i>Kembali
         </a>
-        @if($tryout->is_certification)
-        <a href="{{ route('user.certificate.preview', ['package_id' => request()->route('id_package'), 'tryout_id' => $tryout->tryout_id, 'token' => $latestAttemptToken]) }}"
-            class="px-4 py-2 border border-primary text-primary rounded-lg hover:bg-primary hover:text-white transition-colors">
-            <i class="ri-award-line"></i>
-            Lihat Sertifikat
-        </a>
-        @endif
+        
 
         @if($tryout->is_toefl == 1)
         <a href="{{ route('user.package.tryout.ranking', ['id_package' => request()->route('id_package'), 'id_tryout' => $tryout->tryout_id]) }}"

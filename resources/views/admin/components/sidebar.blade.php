@@ -76,14 +76,7 @@
                     <span class="ms-3">Laporan User</span>
                 </a>
             </li>
-            <li>
-                <a href="{{ route('admin.certificate.index') }}"
-                    class="flex items-center py-2 px-4 {{ request()->routeIs('admin.certificate.*') ? 'text-white bg-primary' : 'text-black hover:bg-gray-100' }} rounded-lg group">
-                    <i
-                        class="ri-award-line text-[20px] {{ request()->routeIs('admin.certificate.*') ? 'text-white' : 'text-black' }}"></i>
-                    <span class="ms-3">Manajemen Sertifikat</span>
-                </a>
-            </li>
+            
         </ul>
     </div>
 </aside>

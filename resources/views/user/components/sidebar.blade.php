@@ -36,14 +36,7 @@
                     <span class="ms-3">Bantuan</span>
                 </a>
             </li>
-            <li>
-                <a href="{{ route('user.certificate.validation') }}"
-                    class="flex items-center py-2 px-4 {{ request()->routeIs('user.certificate.*') ? 'text-white bg-primary' : 'text-black  hover:bg-gray-100' }} rounded-lg group">
-                    <i
-                        class="ri-award-line text-[20px] {{ request()->routeIs('user.certificate.*') ? 'text-white bg-primary' : 'text-black hover:bg-gray-100' }} font-medium"></i>
-                    <span class="ms-3">Validasi Sertifikat</span>
-                </a>
-            </li>
+            
         </ul>
         <p class="text-[#999999] text-sm mt-6">Paket Saya</p>
         <ul class="font-medium space-y-1">

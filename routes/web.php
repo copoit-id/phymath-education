@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\admin\AksesController;
 use App\Http\Controllers\admin\CertificationController;
-use App\Http\Controllers\admin\CertificateController;
 use App\Http\Controllers\admin\ClassController;
 use App\Http\Controllers\admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\admin\DiscussionController;
@@ -14,7 +13,6 @@ use App\Http\Controllers\admin\QuestionController;
 use App\Http\Controllers\admin\TryoutController as AdminTryoutController;
 use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\user\CertificateValidationController;
 use App\Http\Controllers\user\DashboardController;
 use App\Http\Controllers\user\EventController;
 use App\Http\Controllers\user\HelpController;
@@ -106,23 +104,7 @@ Route::prefix('user')->middleware('auth')->group(function () {
         Route::get('/{id_package}/tryout/{id_tryout}/statistik', [PackageController::class, 'statistikTryout'])->name('user.package.tryout.statistik');
     });
 
-    // Certificate validation routes
-    Route::prefix('sertifikat')->group(function () {
-        Route::get('/validasi', [CertificateValidationController::class, 'index'])->name('user.certificate.validation');
-        Route::post('/validasi', [CertificateValidationController::class, 'validateCertificate'])->name('user.certificate.validate');
-        Route::post('/download', [CertificateValidationController::class, 'downloadCertificate'])->name('user.certificate.download');
-        Route::get('/download/{certificate_id}', [CertificateValidationController::class, 'downloadById'])->name('user.certificate.validation.download');
-
-        // Certificate generation routes
-        Route::get('/preview/{package_id}/{tryout_id}/{token}', [\App\Http\Controllers\user\CertificateController::class, 'preview'])->name('user.certificate.preview');
-        Route::get('/view/{certificate_id}/{token}', [\App\Http\Controllers\user\CertificateController::class, 'view'])->name('user.certificate.view');
-        Route::get('/preview-with-data/{certificate_id}/{token}', [\App\Http\Controllers\user\CertificateController::class, 'previewWithData'])->name('user.certificate.preview.with.data');
-        Route::get('/download/{certificate_id}/{token}', [\App\Http\Controllers\user\CertificateController::class, 'download'])->name('user.certificate.download');
-
-        // Template preview route
-        Route::get('/template/preview', [\App\Http\Controllers\user\CertificateController::class, 'previewTemplate'])->name('user.certificate.template.preview');
-        Route::get('/template/test', [\App\Http\Controllers\user\CertificateController::class, 'testSertifikat'])->name('user.certificate.template.test');
-    });
+    // (removed) Certificate validation and generation routes
 });
 
 // Webhook route (outside auth middleware) - make sure this is correct
@@ -239,22 +221,5 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', AdminMiddleware::cla
         Route::post('/{id}/reject', [PembayaranController::class, 'reject'])->name('reject');
     });
 
-    // Certificate Management Routes
-    Route::prefix('sertifikat')->name('certificate.')->group(function () {
-        Route::get('/', [CertificateController::class, 'index'])->name('index');
-        Route::get('/create', [CertificateController::class, 'create'])->name('create');
-        Route::post('/store', [CertificateController::class, 'store'])->name('store');
-        Route::get('/{certificate}/show', [CertificateController::class, 'show'])->name('show');
-        Route::get('/{certificate}/edit', [CertificateController::class, 'edit'])->name('edit');
-        Route::put('/{certificate}/update', [CertificateController::class, 'update'])->name('update');
-        Route::delete('/{certificate}/destroy', [CertificateController::class, 'destroy'])->name('destroy');
-        Route::get('/{certificate}/download-template', [CertificateController::class, 'downloadTemplate'])->name('download-template');
-        Route::post('/bulk-action', [CertificateController::class, 'bulkAction'])->name('bulk-action');
-    });
-
-    // Certificate download route
-    Route::get('certificate/{certificate}/download', [\App\Http\Controllers\admin\CertificateController::class, 'downloadTemplate'])
-        ->name('certificate.downloadTemplate');
-    Route::post('certificate/bulk-action', [\App\Http\Controllers\admin\CertificateController::class, 'bulkAction'])
-        ->name('certificate.bulkAction');
+    // (removed) Certificate management routes
 });
