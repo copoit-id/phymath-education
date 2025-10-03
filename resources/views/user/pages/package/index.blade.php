@@ -46,7 +46,7 @@
 
             <div class="flex flex-col mt-4 gap-3 font-light">
                 @if($package->features)
-                @foreach (json_decode($package->features) as $feature)
+                @foreach ((array) json_decode($package->features, true) as $feature)
                 <span>
                     <i class="ri-checkbox-circle-fill text-green-500"></i>
                     {{ $feature }}
@@ -104,7 +104,7 @@
 
                 <div class="flex flex-col mt-4 gap-3 font-light">
                     @if($package->features)
-                    @foreach (json_decode($package->features) as $feature)
+                    @foreach ((array) json_decode($package->features, true) as $feature)
                     <span>
                         <i class="ri-checkbox-circle-fill text-green-500"></i>
                         {{ $feature }}
@@ -163,7 +163,7 @@
 
             <div class="flex flex-col mt-4 gap-3 font-light">
                 @if($package->features)
-                @foreach (json_decode($package->features) as $feature)
+                @foreach ((array) json_decode($package->features, true) as $feature)
                 <span>
                     <i class="ri-checkbox-circle-fill text-green-500"></i>
                     {{ $feature }}
@@ -208,12 +208,82 @@
     </div>
 </div>
 
+<!-- Manual Payment Modal -->
+<div id="manualPaymentModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden items-center justify-center px-4" role="dialog" aria-modal="true" aria-labelledby="manualModalTitle" tabindex="-1">
+    <div id="manualModalContent" class="bg-white w-full max-w-xl rounded-lg p-6 shadow-2xl border border-border transition ease-out duration-200 transform opacity-0 translate-y-4 scale-95" role="document">
+        <div class="flex items-start justify-between">
+            <div>
+                <h3 id="manualModalTitle" class="text-xl font-bold text-gray-800">Pembayaran Manual (Transfer)</h3>
+                <p class="text-gray-500 text-sm mt-1">Silakan transfer sesuai nominal lalu unggah bukti.
+                </p>
+            </div>
+            <button type="button" id="manualCloseBtn" class="text-gray-400 hover:text-gray-600">
+                <i class="ri-close-line text-2xl"></i>
+            </button>
+        </div>
+
+        <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="border border-border rounded-lg p-4">
+                <p class="text-sm text-gray-500">Bank Tujuan</p>
+                <p class="font-semibold text-gray-800" id="bankName">{{ config('payment.manual.bank_name') }}</p>
+                <div class="mt-2">
+                    <p class="text-sm text-gray-500">No. Rekening</p>
+                    <p class="font-mono font-semibold text-gray-800" id="bankAccountNumber">{{ config('payment.manual.account_number') }}</p>
+                </div>
+                <div class="mt-2">
+                    <p class="text-sm text-gray-500">Atas Nama</p>
+                    <p class="font-semibold text-gray-800" id="bankAccountName">{{ config('payment.manual.account_name') }}</p>
+                </div>
+                <div class="mt-2">
+                    <p class="text-sm text-gray-500">Instruksi</p>
+                    <p class="text-sm text-gray-700" id="bankInstructions">{{ config('payment.manual.instructions') }}</p>
+                </div>
+            </div>
+            <div class="border border-border rounded-lg p-4">
+                <p class="text-sm text-gray-500">Informasi Transaksi</p>
+                <p class="text-gray-800">ID Transaksi:</p>
+                <p class="font-mono font-semibold text-gray-800" id="transactionId">-</p>
+                <div class="mt-2">
+                    <p class="text-gray-800">Total Pembayaran:</p>
+                    <p class="text-2xl font-bold text-primary" id="totalAmount">Rp -</p>
+                </div>
+            </div>
+        </div>
+
+        <form id="manualPaymentForm" class="mt-6" method="POST" enctype="multipart/form-data">
+            @csrf
+            <div class="grid grid-cols-1 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Catatan (opsional)</label>
+                    <input type="text" name="notes" class="w-full border border-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary" placeholder="Contoh: Waktu transfer">
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Upload Bukti Pembayaran</label>
+                <input id="manualProofInput" type="file" name="proof" accept="image/*" class="w-full border border-border rounded-lg px-3 py-2">
+                <p class="text-xs text-gray-500 mt-1">Format JPG/PNG/WEBP, maks 4MB</p>
+            </div>
+
+            <div class="flex items-center justify-end gap-3 mt-6">
+                <button type="button" id="manualCancelBtn" class="px-4 py-2 border border-border text-gray-700 rounded-lg hover:bg-gray-50">Batal</button>
+                <button type="submit" class="px-4 py-2 bg-primary text-white rounded-lg font-semibold">Kirim Bukti</button>
+            </div>
+        </form>
+    </div>
+    
+    <script>
+        // Prevent form submission on Enter in file input context
+    </script>
+</div>
+
 @endsection
 
 @section('scripts')
 <script>
     $(document).ready(function () {
         const tabs = ['kelas', 'tryout', 'sertifikasi'];
+        const manualUploadUrlTemplate = "{{ route('user.package.manual.upload', '__ID__') }}";
 
         function activateTab(active) {
             tabs.forEach(tab => {
@@ -258,6 +328,27 @@
                     // Hide loading
                     $('#loadingModal').addClass('hidden').removeClass('flex');
 
+                    if (response.manual) {
+                        // Fill manual modal data
+                        $('#transactionId').text(response.transaction_id);
+                        const formatted = new Intl.NumberFormat('id-ID').format(response.amount);
+                        $('#totalAmount').text('Rp ' + formatted);
+                        if (response.bank) {
+                            $('#bankName').text(response.bank.name);
+                            $('#bankAccountNumber').text(response.bank.account_number);
+                            $('#bankAccountName').text(response.bank.account_name);
+                            $('#bankInstructions').text(response.bank.instructions ?? '');
+                        }
+
+                        // Set upload action URL
+                        const uploadUrl = manualUploadUrlTemplate.replace('__ID__', response.payment_id);
+                        $('#manualPaymentForm').attr('action', uploadUrl);
+
+                        // Open modal
+                        openManualModal();
+                        return;
+                    }
+
                     if (response.redirect_url) {
                         // Redirect to Xendit payment page
                         window.location.href = response.redirect_url;
@@ -283,6 +374,84 @@
 
         // Initialize first tab
         activateTab('kelas');
+
+        function openManualModal() {
+            const $overlay = $('#manualPaymentModal');
+            const $content = $('#manualModalContent');
+            $overlay.removeClass('hidden').addClass('flex');
+            // animate in
+            requestAnimationFrame(() => {
+                $content.removeClass('opacity-0 translate-y-4 scale-95').addClass('opacity-100 translate-y-0 scale-100');
+            });
+            $('body, html').addClass('overflow-hidden');
+            $('#manualProofInput').trigger('focus');
+        }
+
+        function closeManualModal() {
+            const $overlay = $('#manualPaymentModal');
+            const $content = $('#manualModalContent');
+            // animate out
+            $content.addClass('opacity-0 translate-y-4 scale-95').removeClass('opacity-100 translate-y-0 scale-100');
+            setTimeout(() => {
+                $overlay.addClass('hidden').removeClass('flex');
+                $('body, html').removeClass('overflow-hidden');
+            }, 180);
+        }
+
+        // Manual modal close/cancel
+        $('#manualCloseBtn, #manualCancelBtn').on('click', function() {
+            closeManualModal();
+        });
+
+        // Close on outside click
+        $('#manualPaymentModal').on('click', function(e) {
+            if (e.target === this) {
+                closeManualModal();
+            }
+        });
+
+        // Close on ESC
+        $(document).on('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeManualModal();
+            }
+        });
+
+        // Handle manual proof upload
+        $('#manualPaymentForm').on('submit', function(e) {
+            e.preventDefault();
+            const form = $(this)[0];
+            const data = new FormData(form);
+
+            const submitBtn = $('#manualPaymentForm button[type="submit"]');
+            const original = submitBtn.text();
+            submitBtn.prop('disabled', true).text('Mengunggah...');
+
+            $.ajax({
+                url: $('#manualPaymentForm').attr('action'),
+                method: 'POST',
+                data: data,
+                processData: false,
+                contentType: false,
+                success: function(resp) {
+                    submitBtn.prop('disabled', false).text(original);
+                    if (resp.redirect_url) {
+                        window.location.href = resp.redirect_url;
+                        return;
+                    }
+                    if (resp.success) {
+                        alert(resp.message || 'Bukti pembayaran berhasil diunggah.');
+                        closeManualModal();
+                    }
+                },
+                error: function(xhr) {
+                    submitBtn.prop('disabled', false).text(original);
+                    let msg = 'Gagal mengunggah. Coba lagi.';
+                    if (xhr.responseJSON && xhr.responseJSON.message) { msg = xhr.responseJSON.message; }
+                    alert(msg);
+                }
+            });
+        });
     });
 </script>
 @endsection

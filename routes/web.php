@@ -94,6 +94,7 @@ Route::prefix('user')->middleware('auth')->group(function () {
         Route::get('/tryout-list', [PackageController::class, 'listTryout'])->name('user.package.tryout.list');
         Route::get('/sertifikasi-list', [PackageController::class, 'listSertifikasi'])->name('user.package.sertifikasi.list');
         Route::post('/buy/{package_id}', [PackageController::class, 'buyPackage'])->name('user.package.buy');
+        Route::post('/manual/{payment_id}/upload', [PackageController::class, 'uploadManualProof'])->name('user.package.manual.upload');
 
         // Existing routes
         Route::get('/bimbel/{id_package}', [PackageController::class, 'indexBimbel'])->name('user.package.bimbel');

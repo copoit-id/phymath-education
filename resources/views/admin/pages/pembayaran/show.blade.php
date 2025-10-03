@@ -183,6 +183,12 @@
                     {{ ucfirst($payment->status) }}
                 </span>
             </div>
+            @if($payment->sender_name)
+            <div class="flex justify-between">
+                <span class="text-gray-600">Nama Pengirim:</span>
+                <span class="font-medium">{{ $payment->sender_name }}</span>
+            </div>
+            @endif
             @if($payment->paid_at)
             <div class="flex justify-between">
                 <span class="text-gray-600">Dibayar:</span>
@@ -203,6 +209,19 @@
             </div>
             @endif
         </div>
+        @endif
+    </div>
+
+    <!-- Bukti Pembayaran -->
+    <div class="bg-white border border-border rounded-lg p-6">
+        <h3 class="text-lg font-semibold text-gray-800 mb-4">Bukti Pembayaran</h3>
+        @if($payment->proof_image)
+            <a href="{{ Storage::url($payment->proof_image) }}" target="_blank" class="block">
+                <img src="{{ Storage::url($payment->proof_image) }}" alt="Bukti Pembayaran" class="rounded-lg max-h-96 object-contain border">
+            </a>
+            <p class="text-sm text-gray-500 mt-2">Klik gambar untuk memperbesar</p>
+        @else
+            <p class="text-gray-500">Belum ada bukti pembayaran yang diunggah.</p>
         @endif
     </div>
 </div>

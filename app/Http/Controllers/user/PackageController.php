@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class PackageController extends Controller
@@ -55,6 +56,63 @@ class PackageController extends Controller
         ));
     }
 
+    public function uploadManualProof(Request $request, $paymentId)
+    {
+        $request->validate([
+            'proof' => 'required|image|mimes:jpg,jpeg,png,webp|max:4096',
+            'sender_name' => 'nullable|string|max:100',
+            'notes' => 'nullable|string|max:300',
+        ]);
+
+        $payment = Payment::where('payment_id', $paymentId)
+            ->where('user_id', Auth::id())
+            ->firstOrFail();
+
+        if ($payment->status !== 'pending') {
+            return response()->json([
+                'success' => false,
+                'message' => 'Transaksi ini sudah diproses.'
+            ], 400);
+        }
+
+        if ($payment->payment_method !== 'manual') {
+            return response()->json([
+                'success' => false,
+                'message' => 'Transaksi ini tidak menggunakan metode manual.'
+            ], 400);
+        }
+
+        try {
+            $path = $request->file('proof')->store('payment-proofs', 'public');
+
+            $noteParts = [];
+            if ($request->filled('sender_name')) {
+                $noteParts[] = 'Pengirim: ' . $request->input('sender_name');
+            }
+            if ($request->filled('notes')) {
+                $noteParts[] = 'Catatan: ' . $request->input('notes');
+            }
+            $combinedNotes = trim(implode(' | ', $noteParts));
+
+            $payment->update([
+                'proof_image' => $path,
+                'sender_name' => $request->input('sender_name'),
+                'notes' => $combinedNotes ?: $payment->notes,
+            ]);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Bukti pembayaran berhasil diunggah. Menunggu verifikasi admin.',
+                'redirect_url' => route('user.package.riwayatPembelian')
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal mengunggah bukti pembayaran: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
     public function buyPackage(Request $request, $package_id)
     {
         try {
@@ -94,19 +152,58 @@ class PackageController extends Controller
                 ]);
             }
 
-            // Create payment for paid packages using Xendit
-            $paymentResponse = $this->createXenditPayment($package);
+            // Switch by payment mode
+            $mode = config('payment.mode', 'xendit');
 
-            if ($paymentResponse['success']) {
+            if ($mode === 'manual') {
+                // Create pending payment record for manual transfer
+                $transactionId = 'PKG-MAN-' . $package->package_id . '-' . Auth::id() . '-' . time();
+
+                $payment = Payment::create([
+                    'transaction_id' => $transactionId,
+                    'user_id' => Auth::id(),
+                    'package_id' => $package->package_id,
+                    'amount' => $package->price,
+                    'admin_fee' => 0,
+                    'total_amount' => $package->price,
+                    'status' => 'pending',
+                    'payment_method' => 'manual',
+                    'payment_details' => json_encode([
+                        'bank_name' => config('payment.manual.bank_name'),
+                        'account_name' => config('payment.manual.account_name'),
+                        'account_number' => config('payment.manual.account_number'),
+                    ]),
+                    'notes' => 'Menunggu upload bukti pembayaran (manual transfer)'
+                ]);
+
                 return response()->json([
                     'success' => true,
-                    'redirect_url' => $paymentResponse['invoice_url']
+                    'manual' => true,
+                    'payment_id' => $payment->payment_id,
+                    'transaction_id' => $payment->transaction_id,
+                    'amount' => (int) $payment->total_amount,
+                    'bank' => [
+                        'name' => config('payment.manual.bank_name'),
+                        'account_name' => config('payment.manual.account_name'),
+                        'account_number' => config('payment.manual.account_number'),
+                        'instructions' => config('payment.manual.instructions'),
+                    ],
                 ]);
             } else {
-                return response()->json([
-                    'success' => false,
-                    'message' => $paymentResponse['message']
-                ], 500);
+                // Create payment for paid packages using Xendit
+                $paymentResponse = $this->createXenditPayment($package);
+
+                if ($paymentResponse['success']) {
+                    return response()->json([
+                        'success' => true,
+                        'redirect_url' => $paymentResponse['invoice_url']
+                    ]);
+                } else {
+                    return response()->json([
+                        'success' => false,
+                        'message' => $paymentResponse['message']
+                    ], 500);
+                }
             }
         } catch (\Exception $e) {
             return response()->json([

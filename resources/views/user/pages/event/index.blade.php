@@ -34,7 +34,7 @@
 
                 <div class="flex flex-col mt-4 gap-3 font-light">
                     @if($package->features)
-                    @foreach (json_decode($package->features) as $feature)
+                    @foreach ((array) json_decode($package->features, true) as $feature)
                     <span>
                         <i class="ri-checkbox-circle-fill text-green-500"></i>
                         {{ $feature }}
@@ -80,7 +80,7 @@
 
                 <div class="flex flex-col mt-4 gap-3 font-light">
                     @if($package->features)
-                    @foreach (json_decode($package->features) as $feature)
+                    @foreach ((array) json_decode($package->features, true) as $feature)
                     <span>
                         <i class="ri-checkbox-circle-fill text-green-500"></i>
                         {{ $feature }}
@@ -126,7 +126,7 @@
 
             <div class="flex flex-col mt-4 gap-3 font-light">
                 @if($package->features)
-                @foreach (json_decode($package->features) as $feature)
+                @foreach ((array) json_decode($package->features, true) as $feature)
                 <span>
                     <i class="ri-checkbox-circle-fill text-green-500"></i>
                     {{ $feature }}
