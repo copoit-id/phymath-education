@@ -39,7 +39,7 @@ class TryoutController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string',
-            'type_tryout' => 'required|in:tiu,twk,tkp,skd_full,general,certification,listening,reading,writing,pppk_full,teknis,social culture,management,interview,word,excel,ppt,computer',
+            'type_tryout' => 'required|in:tiu,twk,tkp,skd_full,general,utbk_full,utbk_pu,utbk_ppu,utbk_kmbm,utbk_pk,utbk_literasi,utbk_pm',
             'start_date' => 'required|date',
             'end_date' => 'required|date|after:start_date',
             'is_certification' => 'boolean',
@@ -86,7 +86,7 @@ class TryoutController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string',
-            'type_tryout' => 'required|in:tiu,twk,tkp,skd_full,general,certification,listening,reading,writing,pppk_full,teknis,social culture,management,interview,word,excel,ppt,computer',
+            'type_tryout' => 'required|in:tiu,twk,tkp,skd_full,general,utbk_full,utbk_pu,utbk_ppu,utbk_kmbm,utbk_pk,utbk_literasi,utbk_pm',
             'start_date' => 'required|date',
             'end_date' => 'required|date|after:start_date',
             'is_certification' => 'boolean',
@@ -178,16 +178,13 @@ class TryoutController extends Controller
                 $this->createSubtest($tryout->tryout_id, 'tkp', $request->duration_tkp ?? 45, $request->passing_score_tkp ?? 166);
                 break;
 
-            case 'certification':
-                $this->createSubtest($tryout->tryout_id, 'listening', $request->duration_listening ?? 60, $request->passing_score_listening ?? 60);
-                $this->createSubtest($tryout->tryout_id, 'writing', $request->duration_writing ?? 60, $request->passing_score_writing ?? 60);
-                $this->createSubtest($tryout->tryout_id, 'reading', $request->duration_reading ?? 60, $request->passing_score_reading ?? 60);
-                break;
-
-            case 'pppk_full':
-                $this->createSubtest($tryout->tryout_id, 'teknis', $request->duration_teknis ?? 90, $request->passing_score_teknis ?? 65);
-                $this->createSubtest($tryout->tryout_id, 'social culture', $request->duration_social_culture ?? 60, $request->passing_score_social_culture ?? 65);
-                $this->createSubtest($tryout->tryout_id, 'interview', $request->duration_interview ?? 30, $request->passing_score_interview ?? 70);
+            case 'utbk_full':
+                $this->createSubtest($tryout->tryout_id, 'utbk_pu', $request->duration_utbk_pu ?? 30, $request->passing_score_utbk_pu ?? 60);
+                $this->createSubtest($tryout->tryout_id, 'utbk_ppu', $request->duration_utbk_ppu ?? 30, $request->passing_score_utbk_ppu ?? 60);
+                $this->createSubtest($tryout->tryout_id, 'utbk_kmbm', $request->duration_utbk_kmbm ?? 30, $request->passing_score_utbk_kmbm ?? 60);
+                $this->createSubtest($tryout->tryout_id, 'utbk_pk', $request->duration_utbk_pk ?? 30, $request->passing_score_utbk_pk ?? 60);
+                $this->createSubtest($tryout->tryout_id, 'utbk_literasi', $request->duration_utbk_literasi ?? 30, $request->passing_score_utbk_literasi ?? 60);
+                $this->createSubtest($tryout->tryout_id, 'utbk_pm', $request->duration_utbk_pm ?? 30, $request->passing_score_utbk_pm ?? 60);
                 break;
 
             case 'twk':
@@ -205,56 +202,23 @@ class TryoutController extends Controller
             case 'general':
                 $this->createSubtest($tryout->tryout_id, 'general', $request->duration_general ?? 60, $request->passing_score_general ?? 60);
                 break;
-
-            case 'listening':
-                $this->createSubtest($tryout->tryout_id, 'listening', $request->duration_listening ?? 45, $request->passing_score_listening ?? 60);
+            case 'utbk_pu':
+                $this->createSubtest($tryout->tryout_id, 'utbk_pu', $request->duration_general ?? 30, $request->passing_score_general ?? 60);
                 break;
-
-            case 'reading':
-                $this->createSubtest($tryout->tryout_id, 'reading', $request->duration_reading ?? 60, $request->passing_score_reading ?? 60);
+            case 'utbk_ppu':
+                $this->createSubtest($tryout->tryout_id, 'utbk_ppu', $request->duration_general ?? 30, $request->passing_score_general ?? 60);
                 break;
-
-            case 'writing':
-                $this->createSubtest($tryout->tryout_id, 'writing', $request->duration_writing ?? 60, $request->passing_score_writing ?? 60);
+            case 'utbk_kmbm':
+                $this->createSubtest($tryout->tryout_id, 'utbk_kmbm', $request->duration_general ?? 30, $request->passing_score_general ?? 60);
                 break;
-
-            case 'teknis':
-                $this->createSubtest($tryout->tryout_id, 'teknis', $request->duration_teknis ?? 90, $request->passing_score_teknis ?? 65);
+            case 'utbk_pk':
+                $this->createSubtest($tryout->tryout_id, 'utbk_pk', $request->duration_general ?? 30, $request->passing_score_general ?? 60);
                 break;
-
-            case 'social culture':
-                $this->createSubtest($tryout->tryout_id, 'social culture', $request->duration_social_culture ?? 60, $request->passing_score_social_culture ?? 65);
+            case 'utbk_literasi':
+                $this->createSubtest($tryout->tryout_id, 'utbk_literasi', $request->duration_general ?? 30, $request->passing_score_general ?? 60);
                 break;
-
-            case 'interview':
-                $this->createSubtest($tryout->tryout_id, 'interview', $request->duration_interview ?? 30, $request->passing_score_interview ?? 70);
-                break;
-            case 'word':
-                $this->createSubtest($tryout->tryout_id, 'word', $request->duration_word ?? 30, $request->passing_score_word ?? 70);
-                break;
-            case 'excel':
-                $this->createSubtest($tryout->tryout_id, 'excel', $request->duration_excel ?? 30, $request->passing_score_excel ?? 70);
-                break;
-            case 'ppt':
-                $this->createSubtest($tryout->tryout_id, 'ppt', $request->duration_ppt ?? 30, $request->passing_score_ppt ?? 70);
-                break;
-
-            case 'computer':
-                $this->createSubtest($tryout->tryout_id, 'word', $request->duration_word ?? 30, $request->passing_score_word ?? 70);
-                $this->createSubtest($tryout->tryout_id, 'excel', $request->duration_excel ?? 30, $request->passing_score_excel ?? 70);
-                $this->createSubtest($tryout->tryout_id, 'ppt', $request->duration_ppt ?? 30, $request->passing_score_ppt ?? 70);
-                break;
-
-            case 'word':
-                $this->createSubtest($tryout->tryout_id, 'word', $request->duration_word ?? 30, $request->passing_score_word ?? 70);
-                break;
-
-            case 'excel':
-                $this->createSubtest($tryout->tryout_id, 'excel', $request->duration_excel ?? 30, $request->passing_score_excel ?? 70);
-                break;
-
-            case 'ppt':
-                $this->createSubtest($tryout->tryout_id, 'ppt', $request->duration_ppt ?? 30, $request->passing_score_ppt ?? 70);
+            case 'utbk_pm':
+                $this->createSubtest($tryout->tryout_id, 'utbk_pm', $request->duration_general ?? 30, $request->passing_score_general ?? 60);
                 break;
         }
     }
@@ -290,20 +254,13 @@ class TryoutController extends Controller
                 $this->updateOrCreateSubtest($tryout, 'tiu', $request->duration_tiu ?? 90, $request->passing_score_tiu ?? 80);
                 $this->updateOrCreateSubtest($tryout, 'tkp', $request->duration_tkp ?? 45, $request->passing_score_tkp ?? 166);
                 break;
-            case 'certification':
-                $this->updateOrCreateSubtest($tryout, 'listening', $request->duration_listening ?? 60, $request->passing_score_listening ?? 60);
-                $this->updateOrCreateSubtest($tryout, 'writing', $request->duration_writing ?? 60, $request->passing_score_writing ?? 60);
-                $this->updateOrCreateSubtest($tryout, 'reading', $request->duration_reading ?? 60, $request->passing_score_reading ?? 60);
-                break;
-            case 'pppk_full':
-                $this->updateOrCreateSubtest($tryout, 'teknis', $request->duration_teknis ?? 90, $request->passing_score_teknis ?? 65);
-                $this->updateOrCreateSubtest($tryout, 'social culture', $request->duration_social_culture ?? 60, $request->passing_score_social_culture ?? 65);
-                $this->updateOrCreateSubtest($tryout, 'interview', $request->duration_interview ?? 30, $request->passing_score_interview ?? 70);
-                break;
-            case 'computer':
-                $this->updateOrCreateSubtest($tryout, 'word', $request->duration_word ?? 30, $request->passing_score_word ?? 70);
-                $this->updateOrCreateSubtest($tryout, 'excel', $request->duration_excel ?? 30, $request->passing_score_excel ?? 70);
-                $this->updateOrCreateSubtest($tryout, 'ppt', $request->duration_ppt ?? 30, $request->passing_score_ppt ?? 70);
+            case 'utbk_full':
+                $this->updateOrCreateSubtest($tryout, 'utbk_pu', $request->duration_utbk_pu ?? 30, $request->passing_score_utbk_pu ?? 60);
+                $this->updateOrCreateSubtest($tryout, 'utbk_ppu', $request->duration_utbk_ppu ?? 30, $request->passing_score_utbk_ppu ?? 60);
+                $this->updateOrCreateSubtest($tryout, 'utbk_kmbm', $request->duration_utbk_kmbm ?? 30, $request->passing_score_utbk_kmbm ?? 60);
+                $this->updateOrCreateSubtest($tryout, 'utbk_pk', $request->duration_utbk_pk ?? 30, $request->passing_score_utbk_pk ?? 60);
+                $this->updateOrCreateSubtest($tryout, 'utbk_literasi', $request->duration_utbk_literasi ?? 30, $request->passing_score_utbk_literasi ?? 60);
+                $this->updateOrCreateSubtest($tryout, 'utbk_pm', $request->duration_utbk_pm ?? 30, $request->passing_score_utbk_pm ?? 60);
                 break;
             case 'twk':
                 $this->updateOrCreateSubtest($tryout, 'twk', $request->duration_general ?? 35, $request->passing_score_general ?? 65);
@@ -314,35 +271,26 @@ class TryoutController extends Controller
             case 'tkp':
                 $this->updateOrCreateSubtest($tryout, 'tkp', $request->duration_general ?? 45, $request->passing_score_general ?? 166);
                 break;
-            case 'listening':
-                $this->updateOrCreateSubtest($tryout, 'listening', $request->duration_general ?? 45, $request->passing_score_general ?? 60);
-                break;
-            case 'reading':
-                $this->updateOrCreateSubtest($tryout, 'reading', $request->duration_general ?? 60, $request->passing_score_general ?? 60);
-                break;
-            case 'writing':
-                $this->updateOrCreateSubtest($tryout, 'writing', $request->duration_general ?? 60, $request->passing_score_general ?? 60);
-                break;
-            case 'teknis':
-                $this->updateOrCreateSubtest($tryout, 'teknis', $request->duration_general ?? 90, $request->passing_score_general ?? 65);
-                break;
-            case 'social culture':
-                $this->updateOrCreateSubtest($tryout, 'social culture', $request->duration_general ?? 60, $request->passing_score_general ?? 65);
-                break;
-            case 'interview':
-                $this->updateOrCreateSubtest($tryout, 'interview', $request->duration_general ?? 30, $request->passing_score_general ?? 70);
-                break;
             case 'general':
                 $this->updateOrCreateSubtest($tryout, 'general', $request->duration_general ?? 60, $request->passing_score_general ?? 60);
                 break;
-            case 'word':
-                $this->updateOrCreateSubtest($tryout, 'word', $request->duration_word ?? $request->duration_general ?? 30, $request->passing_score_word ?? $request->passing_score_general ?? 70);
+            case 'utbk_pu':
+                $this->updateOrCreateSubtest($tryout, 'utbk_pu', $request->duration_general ?? 30, $request->passing_score_general ?? 60);
                 break;
-            case 'excel':
-                $this->updateOrCreateSubtest($tryout, 'excel', $request->duration_excel ?? $request->duration_general ?? 30, $request->passing_score_excel ?? $request->passing_score_general ?? 70);
+            case 'utbk_ppu':
+                $this->updateOrCreateSubtest($tryout, 'utbk_ppu', $request->duration_general ?? 30, $request->passing_score_general ?? 60);
                 break;
-            case 'ppt':
-                $this->updateOrCreateSubtest($tryout, 'ppt', $request->duration_ppt ?? $request->duration_general ?? 30, $request->passing_score_ppt ?? $request->passing_score_general ?? 70);
+            case 'utbk_kmbm':
+                $this->updateOrCreateSubtest($tryout, 'utbk_kmbm', $request->duration_general ?? 30, $request->passing_score_general ?? 60);
+                break;
+            case 'utbk_pk':
+                $this->updateOrCreateSubtest($tryout, 'utbk_pk', $request->duration_general ?? 30, $request->passing_score_general ?? 60);
+                break;
+            case 'utbk_literasi':
+                $this->updateOrCreateSubtest($tryout, 'utbk_literasi', $request->duration_general ?? 30, $request->passing_score_general ?? 60);
+                break;
+            case 'utbk_pm':
+                $this->updateOrCreateSubtest($tryout, 'utbk_pm', $request->duration_general ?? 30, $request->passing_score_general ?? 60);
                 break;
         }
     }
@@ -356,17 +304,12 @@ class TryoutController extends Controller
             'twk'               => 'Tes Wawasan Kebangsaan',
             'tiu'               => 'Tes Intelegensi Umum',
             'tkp'               => 'Tes Karakteristik Pribadi',
-            'writing'           => 'Writing Test',
-            'reading'           => 'Reading Comprehension',
-            'listening'         => 'Listening Test',
-            'teknis'            => 'Tes Teknis',
-            'social culture'    => 'Sosial-Kultural & Manajerial',
-            'interview'         => 'Wawancara',
-            'word'              => 'Microsoft Word',
-            'excel'             => 'Microsoft Excel',
-            'ppt'               => 'Microsoft PowerPoint',
-            'penalaran_umum'    => 'Penalaran Umum',
-            'pengetahuan_umum'  => 'Pengetahuan Umum',
+            'utbk_pu'           => 'Penalaran Umum',
+            'utbk_ppu'          => 'Pengetahuan & Pemahaman Umum',
+            'utbk_kmbm'         => 'Kemampuan Memahami Bacaan & Menulis',
+            'utbk_pk'           => 'Pengetahuan Kuantitatif',
+            'utbk_literasi'     => 'Literasi Bahasa Indonesia & Inggris',
+            'utbk_pm'           => 'Penalaran Matematika',
         ];
 
         // Fallback: bikin judul yang oke kalau kodenya belum dipetakan

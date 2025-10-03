@@ -62,35 +62,14 @@
                                 old('type_tryout') === 'tiu' ? 'selected' : '' }}>TIU</option>
                             <option value="tkp" {{ (isset($tryout) && $tryout->type_tryout === 'tkp') ||
                                 old('type_tryout') === 'tkp' ? 'selected' : '' }}>TKP</option>
-                            <option value="certification" {{ (isset($tryout) && $tryout->type_tryout ===
-                                'certification') || old('type_tryout') === 'certification' ? 'selected' : ''
-                                }}>Certification Full (TOEFL ITP)</option>
-                            <option value="listening" {{ (isset($tryout) && $tryout->type_tryout === 'listening') ||
-                                old('type_tryout') === 'listening' ? 'selected' : '' }}>Listening</option>
-                            <option value="reading" {{ (isset($tryout) && $tryout->type_tryout === 'reading') ||
-                                old('type_tryout') === 'reading' ? 'selected' : '' }}>Reading</option>
-                            <option value="writing" {{ (isset($tryout) && $tryout->type_tryout === 'writing') ||
-                                old('type_tryout') === 'writing' ? 'selected' : '' }}>Writing</option>
-                            <option value="pppk_full" {{ (isset($tryout) && $tryout->type_tryout === 'pppk_full') ||
-                                old('type_tryout') === 'pppk_full' ? 'selected' : '' }}>PPPK Full</option>
-                            <option value="teknis" {{ (isset($tryout) && $tryout->type_tryout === 'teknis') ||
-                                old('type_tryout') === 'teknis' ? 'selected' : '' }}>Teknis</option>
-                            <option value="social culture" {{ (isset($tryout) && $tryout->type_tryout === 'social
-                                culture') || old('type_tryout') === 'social culture' ? 'selected' : '' }}>Sosial
-                                Kultural</option>
-                            <option value="interview" {{ (isset($tryout) && $tryout->type_tryout === 'interview') ||
-                                old('type_tryout') === 'interview' ? 'selected' : '' }}>Interview</option>
-                            <option value="word" {{ (isset($tryout) && $tryout->type_tryout === 'word') ||
-                                old('type_tryout') === 'word' ? 'selected' : '' }}>Microsoft Word</option>
-                            <option value="excel" {{ (isset($tryout) && $tryout->type_tryout === 'excel') ||
-                                old('type_tryout') === 'excel' ? 'selected' : '' }}>Microsoft Excel</option>
-                            <option value="ppt" {{ (isset($tryout) && $tryout->type_tryout === 'ppt') ||
-                                old('type_tryout') === 'ppt' ? 'selected' : '' }}>Microsoft PowerPoint</option>
-                            <option value="computer" {{ (isset($tryout) && $tryout->type_tryout === 'computer') ||
-                                old('type_tryout') === 'computer' ? 'selected' : '' }}>Computer Full (Word + Excel +
-                                PPT)</option>
-                            <option value="general" {{ (isset($tryout) && $tryout->type_tryout === 'general') ||
-                                old('type_tryout') === 'general' ? 'selected' : '' }}>General</option>
+                            <option value="utbk_full" {{ (isset($tryout) && $tryout->type_tryout === 'utbk_full') || old('type_tryout') === 'utbk_full' ? 'selected' : '' }}>UTBK Full (6 Subtest)</option>
+                            <option value="utbk_pu" {{ (isset($tryout) && $tryout->type_tryout === 'utbk_pu') || old('type_tryout') === 'utbk_pu' ? 'selected' : '' }}>UTBK - Penalaran Umum</option>
+                            <option value="utbk_ppu" {{ (isset($tryout) && $tryout->type_tryout === 'utbk_ppu') || old('type_tryout') === 'utbk_ppu' ? 'selected' : '' }}>UTBK - Pengetahuan & Pemahaman Umum</option>
+                            <option value="utbk_kmbm" {{ (isset($tryout) && $tryout->type_tryout === 'utbk_kmbm') || old('type_tryout') === 'utbk_kmbm' ? 'selected' : '' }}>UTBK - Kemampuan Memahami Bacaan & Menulis</option>
+                            <option value="utbk_pk" {{ (isset($tryout) && $tryout->type_tryout === 'utbk_pk') || old('type_tryout') === 'utbk_pk' ? 'selected' : '' }}>UTBK - Pengetahuan Kuantitatif</option>
+                            <option value="utbk_literasi" {{ (isset($tryout) && $tryout->type_tryout === 'utbk_literasi') || old('type_tryout') === 'utbk_literasi' ? 'selected' : '' }}>UTBK - Literasi Bahasa</option>
+                            <option value="utbk_pm" {{ (isset($tryout) && $tryout->type_tryout === 'utbk_pm') || old('type_tryout') === 'utbk_pm' ? 'selected' : '' }}>UTBK - Penalaran Matematika</option>
+                            <option value="general" {{ (isset($tryout) && $tryout->type_tryout === 'general') || old('type_tryout') === 'general' ? 'selected' : '' }}>General</option>
                         </select>
                     </div>
                 </div>
@@ -212,6 +191,79 @@
                                     <input type="number" name="passing_score_tkp" min="0" max="300" step="0.1"
                                         value="{{ isset($tryout) ? $tryout->tryoutDetails->where('type_subtest', 'tkp')->first()?->passing_score : old('passing_score_tkp', 166) }}"
                                         class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- UTBK Full Configuration -->
+                    <div id="utbk_config" class="config-section hidden space-y-4">
+                        <h4 class="font-medium text-gray-800">Konfigurasi UTBK Full</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="space-y-2">
+                                <h5 class="font-medium text-sm text-gray-700">Penalaran Umum</h5>
+                                <div>
+                                    <label class="block text-xs text-gray-600 mb-1">Durasi (menit)</label>
+                                    <input type="number" name="duration_utbk_pu" min="1" max="300" value="{{ old('duration_utbk_pu', 30) }}" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm">
+                                </div>
+                                <div>
+                                    <label class="block text-xs text-gray-600 mb-1">Passing Score</label>
+                                    <input type="number" name="passing_score_utbk_pu" min="0" max="100" step="0.1" value="{{ old('passing_score_utbk_pu', 60) }}" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm">
+                                </div>
+                            </div>
+                            <div class="space-y-2">
+                                <h5 class="font-medium text-sm text-gray-700">Pengetahuan & Pemahaman Umum</h5>
+                                <div>
+                                    <label class="block text-xs text-gray-600 mb-1">Durasi (menit)</label>
+                                    <input type="number" name="duration_utbk_ppu" min="1" max="300" value="{{ old('duration_utbk_ppu', 30) }}" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm">
+                                </div>
+                                <div>
+                                    <label class="block text-xs text-gray-600 mb-1">Passing Score</label>
+                                    <input type="number" name="passing_score_utbk_ppu" min="0" max="100" step="0.1" value="{{ old('passing_score_utbk_ppu', 60) }}" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm">
+                                </div>
+                            </div>
+                            <div class="space-y-2">
+                                <h5 class="font-medium text-sm text-gray-700">Kemampuan Memahami Bacaan & Menulis</h5>
+                                <div>
+                                    <label class="block text-xs text-gray-600 mb-1">Durasi (menit)</label>
+                                    <input type="number" name="duration_utbk_kmbm" min="1" max="300" value="{{ old('duration_utbk_kmbm', 30) }}" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm">
+                                </div>
+                                <div>
+                                    <label class="block text-xs text-gray-600 mb-1">Passing Score</label>
+                                    <input type="number" name="passing_score_utbk_kmbm" min="0" max="100" step="0.1" value="{{ old('passing_score_utbk_kmbm', 60) }}" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm">
+                                </div>
+                            </div>
+                            <div class="space-y-2">
+                                <h5 class="font-medium text-sm text-gray-700">Pengetahuan Kuantitatif</h5>
+                                <div>
+                                    <label class="block text-xs text-gray-600 mb-1">Durasi (menit)</label>
+                                    <input type="number" name="duration_utbk_pk" min="1" max="300" value="{{ old('duration_utbk_pk', 30) }}" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm">
+                                </div>
+                                <div>
+                                    <label class="block text-xs text-gray-600 mb-1">Passing Score</label>
+                                    <input type="number" name="passing_score_utbk_pk" min="0" max="100" step="0.1" value="{{ old('passing_score_utbk_pk', 60) }}" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm">
+                                </div>
+                            </div>
+                            <div class="space-y-2">
+                                <h5 class="font-medium text-sm text-gray-700">Literasi Bahasa Indo & Inggris</h5>
+                                <div>
+                                    <label class="block text-xs text-gray-600 mb-1">Durasi (menit)</label>
+                                    <input type="number" name="duration_utbk_literasi" min="1" max="300" value="{{ old('duration_utbk_literasi', 30) }}" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm">
+                                </div>
+                                <div>
+                                    <label class="block text-xs text-gray-600 mb-1">Passing Score</label>
+                                    <input type="number" name="passing_score_utbk_literasi" min="0" max="100" step="0.1" value="{{ old('passing_score_utbk_literasi', 60) }}" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm">
+                                </div>
+                            </div>
+                            <div class="space-y-2">
+                                <h5 class="font-medium text-sm text-gray-700">Penalaran Matematika</h5>
+                                <div>
+                                    <label class="block text-xs text-gray-600 mb-1">Durasi (menit)</label>
+                                    <input type="number" name="duration_utbk_pm" min="1" max="300" value="{{ old('duration_utbk_pm', 30) }}" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm">
+                                </div>
+                                <div>
+                                    <label class="block text-xs text-gray-600 mb-1">Passing Score</label>
+                                    <input type="number" name="passing_score_utbk_pm" min="0" max="100" step="0.1" value="{{ old('passing_score_utbk_pm', 60) }}" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm">
                                 </div>
                             </div>
                         </div>
@@ -502,23 +554,17 @@
 
     const configSectionMap = {
       'skd_full': 'skd_config',
-      'certification': 'certification_config',
-      'pppk_full': 'pppk_config',
-      'computer': 'computer_config',
-      'word': 'word_config',
-      'excel': 'excel_config',
-      'ppt': 'ppt_config',
+      'utbk_full': 'utbk_config',
       // single tests → general_config
       'twk': 'general_config',
       'tiu': 'general_config',
       'tkp': 'general_config',
-      'listening': 'general_config',
-      'structure': 'general_config',
-      'reading': 'general_config',
-      'teknis': 'general_config',
-      'social culture': 'general_config',
-      'management': 'general_config',
-      'interview': 'general_config',
+      'utbk_pu': 'general_config',
+      'utbk_ppu': 'general_config',
+      'utbk_kmbm': 'general_config',
+      'utbk_pk': 'general_config',
+      'utbk_literasi': 'general_config',
+      'utbk_pm': 'general_config',
       'general': 'general_config'
     };
 
@@ -540,26 +586,7 @@
       }
     }
 
-    function updateFieldNames() {
-      const selectedType = String(typeSelect.value || '').trim();
-
-      if (selectedType === 'word') {
-        const d = document.querySelector('input[name="duration_word_single"]');
-        const s = document.querySelector('input[name="passing_score_word_single"]');
-        if (d) d.name = 'duration_word';
-        if (s) s.name = 'passing_score_word';
-      } else if (selectedType === 'excel') {
-        const d = document.querySelector('input[name="duration_excel_single"]');
-        const s = document.querySelector('input[name="passing_score_excel_single"]');
-        if (d) d.name = 'duration_excel';
-        if (s) s.name = 'passing_score_excel';
-      } else if (selectedType === 'ppt') {
-        const d = document.querySelector('input[name="duration_ppt_single"]');
-        const s = document.querySelector('input[name="passing_score_ppt_single"]');
-        if (d) d.name = 'duration_ppt';
-        if (s) s.name = 'passing_score_ppt';
-      }
-    }
+    function updateFieldNames() {}
 
     window.__tryoutChange = function () {
       showConfigSection();

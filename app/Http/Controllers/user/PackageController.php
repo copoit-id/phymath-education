@@ -1064,18 +1064,18 @@ class PackageController extends Controller
                 return 'Tes Intelegensi Umum';
             case 'tkp':
                 return 'Tes Karakteristik Pribadi';
-            case 'writing':
-                return 'Writing Test';
-            case 'reading':
-                return 'Reading Comprehension';
-            case 'listening':
-                return 'Listening Test';
-            case 'word':
-                return 'Microsoft Word';
-            case 'excel':
-                return 'Microsoft Excel';
-            case 'ppt':
-                return 'Microsoft PowerPoint';
+            case 'utbk_pu':
+                return 'Penalaran Umum';
+            case 'utbk_ppu':
+                return 'Pengetahuan & Pemahaman Umum';
+            case 'utbk_kmbm':
+                return 'Kemampuan Memahami Bacaan & Menulis';
+            case 'utbk_pk':
+                return 'Pengetahuan Kuantitatif';
+            case 'utbk_literasi':
+                return 'Literasi Bahasa Indonesia & Inggris';
+            case 'utbk_pm':
+                return 'Penalaran Matematika';
             default:
                 return ucfirst($type);
         }

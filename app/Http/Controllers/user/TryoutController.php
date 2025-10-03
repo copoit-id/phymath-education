@@ -298,28 +298,20 @@ class TryoutController extends Controller
                 return 'Tes Intelegensi Umum';
             case 'tkp':
                 return 'Tes Karakteristik Pribadi';
-            case 'writing':
-                return 'Writing Test';
-            case 'reading':
-                return 'Reading Comprehension';
-            case 'listening':
-                return 'Listening Test';
             case 'general':
                 return 'General Test';
-            case 'teknis':
-                return 'Tes Teknis';
-            case 'social culture':
-                return 'Sosial-Kultural';
-            case 'management':
-                return 'Manajerial';
-            case 'interview':
-                return 'Wawancara';
-            case 'word':
-                return 'Microsoft Word';
-            case 'excel':
-                return 'Microsoft Excel';
-            case 'ppt':
-                return 'Microsoft PowerPoint';
+            case 'utbk_pu':
+                return 'Penalaran Umum';
+            case 'utbk_ppu':
+                return 'Pengetahuan & Pemahaman Umum';
+            case 'utbk_kmbm':
+                return 'Kemampuan Memahami Bacaan & Menulis';
+            case 'utbk_pk':
+                return 'Pengetahuan Kuantitatif';
+            case 'utbk_literasi':
+                return 'Literasi Bahasa Indonesia & Inggris';
+            case 'utbk_pm':
+                return 'Penalaran Matematika';
             default:
                 return ucfirst($type);
         }
@@ -459,10 +451,13 @@ class TryoutController extends Controller
                 // SKD TKP: Semua jawaban dianggap "benar" karena ada bobot
                 return $selectedOption->weight > 0;
 
-            case 'writing':
-            case 'reading':
-            case 'listening':
-                // Certification tests: standard correct/incorrect
+            // UTBK subtests: standard correct/incorrect
+            case 'utbk_pu':
+            case 'utbk_ppu':
+            case 'utbk_kmbm':
+            case 'utbk_pk':
+            case 'utbk_literasi':
+            case 'utbk_pm':
                 return (bool) $selectedOption->is_correct;
 
             default:
@@ -495,11 +490,15 @@ class TryoutController extends Controller
                         $totalScore += (float) ($detail->questionOption->weight ?? 0);
                         break;
 
-                    case 'writing':
-                    case 'reading':
-                    case 'listening':
+                    // UTBK subtests: use weight if any, default 1 for correct
+                    case 'utbk_pu':
+                    case 'utbk_ppu':
+                    case 'utbk_kmbm':
+                    case 'utbk_pk':
+                    case 'utbk_literasi':
+                    case 'utbk_pm':
                         $w = (float) ($detail->questionOption->weight ?? 0);
-                        $totalScore += $detail->is_correct ? ($w > 0 ? $w : 10) : 0;
+                        $totalScore += $detail->is_correct ? ($w > 0 ? $w : 1) : 0;
                         break;
 
                     default:
@@ -526,10 +525,14 @@ class TryoutController extends Controller
             case 'tkp':
                 return $totalQuestions * 5; // Maksimal 5 poin per soal
 
-            case 'writing':
-            case 'reading':
-            case 'listening':
-                return $totalQuestions * 10; // 10 poin per soal untuk certification
+            // UTBK subtests: default 1 poin per soal (unless weights provided)
+            case 'utbk_pu':
+            case 'utbk_ppu':
+            case 'utbk_kmbm':
+            case 'utbk_pk':
+            case 'utbk_literasi':
+            case 'utbk_pm':
+                return $totalQuestions;
 
             default:
                 return $totalQuestions; // 1 poin per soal untuk tryout biasa
@@ -637,6 +640,7 @@ class TryoutController extends Controller
      */
     private function mapSectionType($sectionType)
     {
+        // Only used for TOEFL mapping; return null for non-TOEFL/UTBK
         switch ($sectionType) {
             case 'listening':
                 return 'section1';
@@ -644,20 +648,6 @@ class TryoutController extends Controller
                 return 'section2';
             case 'reading':
                 return 'section3';
-            case 'word':
-                return 'section1';
-            case 'excel':
-                return 'section2';
-            case 'ppt':
-                return 'section3';
-            case 'teknis':
-                return 'section1';
-            case 'social culture':
-                return 'section2';
-            case 'management':
-                return 'section3';
-            case 'interview':
-                return 'section4';
             default:
                 return null;
         }
