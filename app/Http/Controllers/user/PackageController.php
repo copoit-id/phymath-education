@@ -1064,6 +1064,14 @@ class PackageController extends Controller
                 return 'Tes Intelegensi Umum';
             case 'tkp':
                 return 'Tes Karakteristik Pribadi';
+            case 'teknis':
+                return 'Tes Teknis';
+            case 'social culture':
+                return 'Sosial Kultural';
+            case 'management':
+                return 'Manajerial';
+            case 'interview':
+                return 'Wawancara';
             case 'utbk_pu':
                 return 'Penalaran Umum';
             case 'utbk_ppu':

@@ -63,12 +63,17 @@
                             <option value="tkp" {{ (isset($tryout) && $tryout->type_tryout === 'tkp') ||
                                 old('type_tryout') === 'tkp' ? 'selected' : '' }}>TKP</option>
                             <option value="utbk_full" {{ (isset($tryout) && $tryout->type_tryout === 'utbk_full') || old('type_tryout') === 'utbk_full' ? 'selected' : '' }}>UTBK Full (6 Subtest)</option>
+                            <option value="pppk_full" {{ (isset($tryout) && $tryout->type_tryout === 'pppk_full') || old('type_tryout') === 'pppk_full' ? 'selected' : '' }}>PPPK Full</option>
                             <option value="utbk_pu" {{ (isset($tryout) && $tryout->type_tryout === 'utbk_pu') || old('type_tryout') === 'utbk_pu' ? 'selected' : '' }}>UTBK - Penalaran Umum</option>
                             <option value="utbk_ppu" {{ (isset($tryout) && $tryout->type_tryout === 'utbk_ppu') || old('type_tryout') === 'utbk_ppu' ? 'selected' : '' }}>UTBK - Pengetahuan & Pemahaman Umum</option>
                             <option value="utbk_kmbm" {{ (isset($tryout) && $tryout->type_tryout === 'utbk_kmbm') || old('type_tryout') === 'utbk_kmbm' ? 'selected' : '' }}>UTBK - Kemampuan Memahami Bacaan & Menulis</option>
                             <option value="utbk_pk" {{ (isset($tryout) && $tryout->type_tryout === 'utbk_pk') || old('type_tryout') === 'utbk_pk' ? 'selected' : '' }}>UTBK - Pengetahuan Kuantitatif</option>
                             <option value="utbk_literasi" {{ (isset($tryout) && $tryout->type_tryout === 'utbk_literasi') || old('type_tryout') === 'utbk_literasi' ? 'selected' : '' }}>UTBK - Literasi Bahasa</option>
                             <option value="utbk_pm" {{ (isset($tryout) && $tryout->type_tryout === 'utbk_pm') || old('type_tryout') === 'utbk_pm' ? 'selected' : '' }}>UTBK - Penalaran Matematika</option>
+                            <option value="teknis" {{ (isset($tryout) && $tryout->type_tryout === 'teknis') || old('type_tryout') === 'teknis' ? 'selected' : '' }}>PPPK - Teknis</option>
+                            <option value="management" {{ (isset($tryout) && $tryout->type_tryout === 'management') || old('type_tryout') === 'management' ? 'selected' : '' }}>PPPK - Manajerial</option>
+                            <option value="social culture" {{ (isset($tryout) && $tryout->type_tryout === 'social culture') || old('type_tryout') === 'social culture' ? 'selected' : '' }}>PPPK - Sosial Kultural</option>
+                            <option value="interview" {{ (isset($tryout) && $tryout->type_tryout === 'interview') || old('type_tryout') === 'interview' ? 'selected' : '' }}>PPPK - Wawancara</option>
                             <option value="general" {{ (isset($tryout) && $tryout->type_tryout === 'general') || old('type_tryout') === 'general' ? 'selected' : '' }}>General</option>
                         </select>
                     </div>
@@ -142,7 +147,7 @@
                     <!-- SKD Full Configuration -->
                     <div id="skd_config" class="config-section hidden space-y-4">
                         <h4 class="font-medium text-gray-800">Konfigurasi SKD Full</h4>
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                             <!-- TWK -->
                             <div class="space-y-2">
                                 <h5 class="font-medium text-sm text-gray-700">Tes Wawasan Kebangsaan (TWK)</h5>
@@ -365,6 +370,22 @@
                                         class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm">
                                 </div>
                             </div>
+                            <!-- Manajerial -->
+                            <div class="space-y-2">
+                                <h5 class="font-medium text-sm text-gray-700">Kompetensi Manajerial</h5>
+                                <div>
+                                    <label class="block text-xs text-gray-600 mb-1">Durasi (menit)</label>
+                                    <input type="number" name="duration_management" min="1" max="300"
+                                        value="{{ isset($tryout) ? $tryout->tryoutDetails->where('type_subtest', 'management')->first()?->duration : old('duration_management', 60) }}"
+                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm">
+                                </div>
+                                <div>
+                                    <label class="block text-xs text-gray-600 mb-1">Passing Score</label>
+                                    <input type="number" name="passing_score_management" min="0" max="180" step="0.1"
+                                        value="{{ isset($tryout) ? $tryout->tryoutDetails->where('type_subtest', 'management')->first()?->passing_score : old('passing_score_management', 65) }}"
+                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm">
+                                </div>
+                            </div>
 
                             <!-- Wawancara -->
                             <div class="space-y-2">
@@ -555,6 +576,7 @@
     const configSectionMap = {
       'skd_full': 'skd_config',
       'utbk_full': 'utbk_config',
+      'pppk_full': 'pppk_config',
       // single tests → general_config
       'twk': 'general_config',
       'tiu': 'general_config',
@@ -565,6 +587,10 @@
       'utbk_pk': 'general_config',
       'utbk_literasi': 'general_config',
       'utbk_pm': 'general_config',
+      'teknis': 'general_config',
+      'management': 'general_config',
+      'social culture': 'general_config',
+      'interview': 'general_config',
       'general': 'general_config'
     };
 

@@ -300,6 +300,14 @@ class TryoutController extends Controller
                 return 'Tes Karakteristik Pribadi';
             case 'general':
                 return 'General Test';
+            case 'teknis':
+                return 'Tes Teknis';
+            case 'social culture':
+                return 'Sosial Kultural';
+            case 'management':
+                return 'Manajerial';
+            case 'interview':
+                return 'Wawancara';
             case 'utbk_pu':
                 return 'Penalaran Umum';
             case 'utbk_ppu':
