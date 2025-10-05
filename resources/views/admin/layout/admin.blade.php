@@ -10,18 +10,21 @@
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     <script src="https://cdn.ckeditor.com/4.22.1/full-all/ckeditor.js"></script>
-    <!-- Ensure MathJax plugin is available -->
+    <!-- Load MathJax v2 for better CKEditor compatibility -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS_HTML"></script>
     <script>
-        // Preload MathJax before CKEditor initialization
-        if (!window.MathJax) {
-            window.MathJax = {
-                skipStartupTypeset: true,
-                tex: {
-                    inlineMath: [['$', '$'], ['\\(', '\\)']],
-                    displayMath: [['$$', '$$'], ['\\[', '\\]']]
-                }
-            };
-        }
+        // Configure MathJax v2
+        window.MathJax = {
+            skipStartupTypeset: true,
+            tex2jax: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            "HTML-CSS": {
+                availableFonts: ["TeX"]
+            }
+        };
     </script>
 
     @vite('resources/css/app.css')
@@ -57,55 +60,60 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const mathJaxSrc = @json(config('services.ckeditor.mathjax_src'));
+        // Configure CKEditor global settings untuk load minimal tools langsung dengan MathJax
+        CKEDITOR.config.customConfig = '';
+        CKEDITOR.config.skin = 'moono-lisa';
+        CKEDITOR.config.resize_enabled = false;
+        CKEDITOR.config.removeDialogTabs = 'image:advanced;link:advanced';
 
-            // Ensure MathJax is available before initializing CKEditor
-            if (window.MathJax) {
-                initializeCKEditors();
-            } else {
-                // Wait for MathJax to load
-                window.addEventListener('load', initializeCKEditors);
-            }
+        document.addEventListener('DOMContentLoaded', function () {
+            initializeCKEditors();
 
             function initializeCKEditors() {
-                // Check if MathJax plugin is available
-                if (!CKEDITOR.plugins.registered.mathjax) {
-                    console.warn('MathJax plugin not found in CKEditor. Please ensure it is included.');
-                }
+                console.log('Initializing CKEditor with minimal tools + MathJax...');
+
+                // Destroy any existing instances first
+                Object.keys(CKEDITOR.instances).forEach(function(instanceName) {
+                    CKEDITOR.instances[instanceName].destroy(true);
+                });
 
                 const commonConfig = {
+                    // Load minimal plugins langsung dengan MathJax
+                    plugins: 'basicstyles,toolbar,wysiwygarea,elementspath,mathjax,sourcearea,clipboard,undo,format,list,indent,blockquote,table,horizontalrule,link',
                     extraPlugins: 'mathjax',
-                    mathJaxLib: mathJaxSrc,
+                    mathJaxLib: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS_HTML',
                     mathJaxClass: 'math-tex',
-                    removePlugins: 'cloudservices,easyimage',
+                    removePlugins: 'elementspath,save,newpage,preview,print,templates,about,maximize,showblocks,magicline,pagebreak,iframe,flash,smiley,pagebreakutils,indent,indentlist,indentblock',
                     allowedContent: true,
                     forcePasteAsPlainText: false,
-                    entities: false
+                    entities: false,
+                    startupFocus: false,
+                    // Disable automatic toolbar loading
+                    toolbarStartupExpanded: true,
+                    toolbarCanCollapse: false
                 };
 
                 const baseConfig = {
                     ...commonConfig,
                     height: 300,
+                    // Simplified toolbar dengan MathJax di depan
                     toolbar: [
-                        { name: 'clipboard', items: ['Undo', 'Redo'] },
-                        { name: 'styles', items: ['Format'] },
-                        { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'RemoveFormat'] },
-                        { name: 'paragraph', items: ['NumberedList', 'BulletedList', 'Outdent', 'Indent', 'Blockquote'] },
-                        { name: 'insert', items: ['Mathjax', 'Table', 'HorizontalRule', 'Link'] },
-                        { name: 'document', items: ['Source', 'Maximize'] }
+                        { name: 'math', items: ['Mathjax'] },
+                        { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline'] },
+                        { name: 'paragraph', items: ['NumberedList', 'BulletedList'] },
+                        { name: 'insert', items: ['Table', 'Link'] },
+                        { name: 'tools', items: ['Source'] }
                     ]
                 };
 
-                // Same config base for options but different height and simplified toolbar
                 const optionConfig = {
                     ...commonConfig,
                     height: 220,
+                    // Toolbar lebih minimal untuk option dengan MathJax di depan
                     toolbar: [
-                        { name: 'clipboard', items: ['Undo', 'Redo'] },
-                        { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'RemoveFormat'] },
-                        { name: 'insert', items: ['Mathjax', 'Link'] },
-                        { name: 'document', items: ['Source'] }
+                        { name: 'math', items: ['Mathjax'] },
+                        { name: 'basicstyles', items: ['Bold', 'Italic'] },
+                        { name: 'tools', items: ['Source'] }
                     ]
                 };
 
@@ -116,29 +124,25 @@
                     return textarea.id;
                 };
 
-                // Initialize question text editors
+                // Initialize question text editors (for soal)
                 document.querySelectorAll('textarea.ckeditor').forEach((textarea, index) => {
                     const elementId = ensureId(textarea, index);
-                    if (!CKEDITOR.instances[elementId]) {
-                        console.log('Initializing CKEditor for question text:', elementId);
-                        try {
-                            CKEDITOR.replace(elementId, baseConfig);
-                        } catch (error) {
-                            console.error('Error initializing question editor:', error);
-                        }
+                    console.log('Initializing minimal CKEditor for question:', elementId);
+                    try {
+                        CKEDITOR.replace(elementId, baseConfig);
+                    } catch (error) {
+                        console.error('Error initializing question editor:', error);
                     }
                 });
 
                 // Initialize option text editors
                 document.querySelectorAll('textarea.ckeditor-option').forEach((textarea, index) => {
                     const elementId = ensureId(textarea, `option-${index}`);
-                    if (!CKEDITOR.instances[elementId]) {
-                        console.log('Initializing CKEditor for option text:', elementId);
-                        try {
-                            CKEDITOR.replace(elementId, optionConfig);
-                        } catch (error) {
-                            console.error('Error initializing option editor:', error);
-                        }
+                    console.log('Initializing minimal CKEditor for option:', elementId);
+                    try {
+                        CKEDITOR.replace(elementId, optionConfig);
+                    } catch (error) {
+                        console.error('Error initializing option editor:', error);
                     }
                 });
             }
