@@ -47,7 +47,7 @@ return [
         'secret_key' => env('RECAPTCHA_SECRET_KEY'),
         'min_score' => env('RECAPTCHA_MIN_SCORE', 0.5), // For v3, minimum score threshold
     ],
-    'tinymce' => [
-        'key' => env('TINYMCE_API_KEY'),
+    'ckeditor' => [
+        'mathjax_src' => env('CKEDITOR_MATHJAX_SRC', 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS_HTML'),
     ],
 ];
