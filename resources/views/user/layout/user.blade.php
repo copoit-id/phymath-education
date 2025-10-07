@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Phymath Education</title>
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet" />
+    <link rel="icon" type="image/x-icon" href="{{ asset('img/logo/logo.png') }}">
     @vite('resources/css/app.css')
 </head>
 

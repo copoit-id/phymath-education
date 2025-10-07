@@ -26,6 +26,7 @@
             }
         };
     </script>
+    <link rel="icon" type="image/x-icon" href="{{ asset('img/logo/logo.png') }}">
 
     @vite('resources/css/app.css')
 </head>
