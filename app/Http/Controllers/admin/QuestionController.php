@@ -49,11 +49,11 @@ class QuestionController extends Controller
             // Validation
             $request->validate([
                 'question_text' => 'required|string',
-                'option_a' => 'required|string|max:255',
-                'option_b' => 'required|string|max:255',
-                'option_c' => 'required|string|max:255',
-                'option_d' => 'required|string|max:255',
-                'option_e' => 'nullable|string|max:255',
+                'option_a' => 'required|string',
+                'option_b' => 'required|string',
+                'option_c' => 'required|string',
+                'option_d' => 'required|string',
+                'option_e' => 'nullable|string',
                 'correct_answer' => 'required|in:A,B,C,D,E',
                 'explanation' => 'nullable|string',
                 // 'sound' => 'nullable|file|mimes:mp3,mp3a,wav,m4a|max:10120',
