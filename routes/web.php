@@ -19,6 +19,7 @@ use App\Http\Controllers\user\HelpController;
 use App\Http\Controllers\user\PackageController;
 use App\Http\Controllers\user\TryoutController;
 use App\Http\Middleware\AdminMiddleware;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 // routes/web.php
 Route::get('/phpinfo', function () {
@@ -26,9 +27,14 @@ Route::get('/phpinfo', function () {
 });
 
 Route::get('/', function () {
-    return redirect()->route('login');
+    if (Auth::check() && Auth::user()->role == 'user') {
+        return redirect()->route('user.dashboard.index');
+    } else if (Auth::check() && Auth::user()->role == 'admin') {
+        return redirect()->route('admin.dashboard');
+    } else {
+        return redirect()->route('login');
+    }
 });
-
 // Authentication routes
 
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
