@@ -27,9 +27,17 @@
             <li><a href="#testimony-section" class="hover:text-green-dark">Testimoni</a></li>
             <li><a href="#footer" class="hover:text-green-dark">Kontak</a></li>
             <li>
-                <a href="#" class="border border-green-dark px-6 py-2 rounded-full bg-green-dark text-white hover:bg-green-700 transition">
-                    Materi Belajar
-                </a>
+                @auth
+                    <a href="{{ route('user.package.index') }}"
+                        class="border border-green-dark px-6 py-2 rounded-full bg-green-dark text-white hover:bg-green-700 transition">
+                        Materi Belajar
+                    </a>
+                @else
+                    <a href="{{ route('login') }}"
+                        class="border border-green-dark px-6 py-2 rounded-full bg-green-dark text-white hover:bg-green-700 transition">
+                        Materi Belajar
+                    </a>
+                @endauth
             </li>
         </ul>
     </nav>
@@ -53,10 +61,19 @@
                 <li><a href="#testimony-section" class="hover:text-green-dark" data-close="mobile-menu">Testimoni</a></li>
                 <li><a href="#footer" class="hover:text-green-dark" data-close="mobile-menu">Kontak</a></li>
             </ul>
-            <a href="#" class="mt-10 inline-block w-full rounded-full bg-green-dark px-6 py-3 text-center text-white hover:bg-green-700 transition"
-                data-close="mobile-menu">
-                Materi Belajar
-            </a>
+            @auth
+                <a href="{{ route('user.package.index') }}"
+                    class="mt-10 inline-block w-full rounded-full bg-green-dark px-6 py-3 text-center text-white hover:bg-green-700 transition"
+                    data-close="mobile-menu">
+                    Materi Belajar
+                </a>
+            @else
+                <a href="{{ route('login') }}"
+                    class="mt-10 inline-block w-full rounded-full bg-green-dark px-6 py-3 text-center text-white hover:bg-green-700 transition"
+                    data-close="mobile-menu">
+                    Materi Belajar
+                </a>
+            @endauth
         </div>
     </div>
     <main>
@@ -74,7 +91,11 @@
 
                 </p>
                 <div class="mt-12">
-                    <a href="" class="border px-8 py-3 rounded-full">Materi Belajar</a>
+                    @auth
+                        <a href="{{ route('user.package.index') }}" class="border px-8 py-3 rounded-full">Materi Belajar</a>
+                    @else
+                        <a href="{{ route('login') }}" class="border px-8 py-3 rounded-full">Materi Belajar</a>
+                    @endauth
                 </div>
             </div>
             <div class="w-full md:w-1/2">
@@ -109,9 +130,17 @@
                         <span><i class="ri-checkbox-circle-fill text-green-500"></i> Modul eksklusif dan bank soal</span>
                         <span><i class="ri-checkbox-circle-fill text-green-500"></i> Laporan perkembangan pribadi</span>
                     </div>
-                    <a href="#" class="mt-6 block w-full bg-primary text-white px-4 py-3 rounded-lg font-semibold text-center">
-                        LIHAT DETAIL
-                    </a>
+                    @auth
+                        <a href="{{ route('user.package.index') }}"
+                            class="mt-6 block w-full bg-primary text-white px-4 py-3 rounded-lg font-semibold text-center">
+                            LIHAT DETAIL
+                        </a>
+                    @else
+                        <a href="{{ route('login') }}"
+                            class="mt-6 block w-full bg-primary text-white px-4 py-3 rounded-lg font-semibold text-center">
+                            LIHAT DETAIL
+                        </a>
+                    @endauth
                 </div>
                 <div class="bg-white px-6 py-6 shadow rounded-xl border border-gray-100">
                     <div class="w-full h-36 bg-gray-200 rounded-xl mb-4 overflow-hidden">
@@ -126,9 +155,17 @@
                         <span><i class="ri-checkbox-circle-fill text-green-500"></i> Analisis skor dan rekomendasi materi</span>
                         <span><i class="ri-checkbox-circle-fill text-green-500"></i> Tryout dapat diulang kapan saja</span>
                     </div>
-                    <a href="#" class="mt-6 block w-full bg-primary text-white px-4 py-3 rounded-lg font-semibold text-center">
-                        LIHAT DETAIL
-                    </a>
+                    @auth
+                        <a href="{{ route('user.package.index') }}"
+                            class="mt-6 block w-full bg-primary text-white px-4 py-3 rounded-lg font-semibold text-center">
+                            LIHAT DETAIL
+                        </a>
+                    @else
+                        <a href="{{ route('login') }}"
+                            class="mt-6 block w-full bg-primary text-white px-4 py-3 rounded-lg font-semibold text-center">
+                            LIHAT DETAIL
+                        </a>
+                    @endauth
                 </div>
                 <div class="bg-white px-6 py-6 shadow rounded-xl border border-gray-100">
                     <div class="w-full h-36 bg-gray-200 rounded-xl mb-4 overflow-hidden">
@@ -143,9 +180,17 @@
                         <span><i class="ri-checkbox-circle-fill text-green-500"></i> Bimbingan mentor sesuai bidang</span>
                         <span><i class="ri-checkbox-circle-fill text-green-500"></i> Simulasi penilaian berkala</span>
                     </div>
-                    <a href="#" class="mt-6 block w-full bg-primary text-white px-4 py-3 rounded-lg font-semibold text-center">
-                        LIHAT DETAIL
-                    </a>
+                    @auth
+                        <a href="{{ route('user.package.index') }}"
+                            class="mt-6 block w-full bg-primary text-white px-4 py-3 rounded-lg font-semibold text-center">
+                            LIHAT DETAIL
+                        </a>
+                    @else
+                        <a href="{{ route('login') }}"
+                            class="mt-6 block w-full bg-primary text-white px-4 py-3 rounded-lg font-semibold text-center">
+                            LIHAT DETAIL
+                        </a>
+                    @endauth
                 </div>
             </div>
         </section>
