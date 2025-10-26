@@ -13,6 +13,7 @@ use App\Http\Controllers\admin\QuestionController;
 use App\Http\Controllers\admin\TryoutController as AdminTryoutController;
 use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\user\DashboardController;
 use App\Http\Controllers\user\EventController;
 use App\Http\Controllers\user\HelpController;
@@ -26,15 +27,16 @@ Route::get('/phpinfo', function () {
     phpinfo();
 });
 
-Route::get('/', function () {
-    if (Auth::check() && Auth::user()->role == 'user') {
-        return redirect()->route('user.dashboard.index');
-    } else if (Auth::check() && Auth::user()->role == 'admin') {
-        return redirect()->route('admin.dashboard');
-    } else {
-        return redirect()->route('login');
-    }
-});
+Route::get('/', [LandingPageController::class, 'index'])->name('landing');
+// Route::get('/', function () {
+//     if (Auth::check() && Auth::user()->role == 'user') {
+//         return redirect()->route('user.dashboard.index');
+//     } else if (Auth::check() && Auth::user()->role == 'admin') {
+//         return redirect()->route('admin.dashboard');
+//     } else {
+//         return redirect()->route('login');
+//     }
+// });
 // Authentication routes
 
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
