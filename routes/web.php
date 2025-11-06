@@ -230,5 +230,101 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', AdminMiddleware::cla
         Route::post('/{id}/reject', [PembayaranController::class, 'reject'])->name('reject');
     });
 
+    // Landing Page Management Routes
+    Route::prefix('landing')->name('landing.')->group(function () {
+        // Landing Page Dashboard
+        Route::get('/', [\App\Http\Controllers\Admin\LandingPageController::class, 'index'])->name('index');
+
+        // Hero Section
+        Route::prefix('hero')->name('hero.')->group(function () {
+            Route::get('/', [\App\Http\Controllers\Admin\HeroController::class, 'index'])->name('index');
+            Route::get('/create', [\App\Http\Controllers\Admin\HeroController::class, 'create'])->name('create');
+            Route::post('/store', [\App\Http\Controllers\Admin\HeroController::class, 'store'])->name('store');
+            Route::get('/{id}/edit', [\App\Http\Controllers\Admin\HeroController::class, 'edit'])->name('edit');
+            Route::put('/{id}', [\App\Http\Controllers\Admin\HeroController::class, 'update'])->name('update');
+            Route::delete('/{id}', [\App\Http\Controllers\Admin\HeroController::class, 'destroy'])->name('destroy');
+        });
+
+        // Why Us Section
+        Route::prefix('whyus')->name('whyus.')->group(function () {
+            Route::get('/', [\App\Http\Controllers\Admin\WhyUsController::class, 'index'])->name('index');
+            Route::get('/create', [\App\Http\Controllers\Admin\WhyUsController::class, 'create'])->name('create');
+            Route::post('/store', [\App\Http\Controllers\Admin\WhyUsController::class, 'store'])->name('store');
+            Route::get('/{id}/edit', [\App\Http\Controllers\Admin\WhyUsController::class, 'edit'])->name('edit');
+            Route::put('/{id}', [\App\Http\Controllers\Admin\WhyUsController::class, 'update'])->name('update');
+            Route::delete('/{id}', [\App\Http\Controllers\Admin\WhyUsController::class, 'destroy'])->name('destroy');
+        });
+
+        // Subject Section
+        Route::prefix('subject')->name('subject.')->group(function () {
+            Route::get('/', [\App\Http\Controllers\Admin\SubjectController::class, 'index'])->name('index');
+            Route::get('/create', [\App\Http\Controllers\Admin\SubjectController::class, 'create'])->name('create');
+            Route::post('/store', [\App\Http\Controllers\Admin\SubjectController::class, 'store'])->name('store');
+            Route::get('/{id}/edit', [\App\Http\Controllers\Admin\SubjectController::class, 'edit'])->name('edit');
+            Route::put('/{id}', [\App\Http\Controllers\Admin\SubjectController::class, 'update'])->name('update');
+            Route::delete('/{id}', [\App\Http\Controllers\Admin\SubjectController::class, 'destroy'])->name('destroy');
+        });
+
+        // Testimony Section
+        Route::prefix('testimony')->name('testimony.')->group(function () {
+            Route::get('/', [\App\Http\Controllers\Admin\TestimonyController::class, 'index'])->name('index');
+            Route::get('/create', [\App\Http\Controllers\Admin\TestimonyController::class, 'create'])->name('create');
+            Route::post('/store', [\App\Http\Controllers\Admin\TestimonyController::class, 'store'])->name('store');
+            Route::get('/{id}/edit', [\App\Http\Controllers\Admin\TestimonyController::class, 'edit'])->name('edit');
+            Route::put('/{id}', [\App\Http\Controllers\Admin\TestimonyController::class, 'update'])->name('update');
+            Route::delete('/{id}', [\App\Http\Controllers\Admin\TestimonyController::class, 'destroy'])->name('destroy');
+        });
+
+        // FAQ Section
+        Route::prefix('faq')->name('faq.')->group(function () {
+            Route::get('/', [\App\Http\Controllers\Admin\FaqController::class, 'index'])->name('index');
+            Route::get('/create', [\App\Http\Controllers\Admin\FaqController::class, 'create'])->name('create');
+            Route::post('/store', [\App\Http\Controllers\Admin\FaqController::class, 'store'])->name('store');
+            Route::get('/{id}/edit', [\App\Http\Controllers\Admin\FaqController::class, 'edit'])->name('edit');
+            Route::put('/{id}', [\App\Http\Controllers\Admin\FaqController::class, 'update'])->name('update');
+            Route::delete('/{id}', [\App\Http\Controllers\Admin\FaqController::class, 'destroy'])->name('destroy');
+        });
+
+        // Contact Section
+        Route::prefix('contact')->name('contact.')->group(function () {
+            Route::get('/', [\App\Http\Controllers\Admin\ContactController::class, 'index'])->name('index');
+            Route::get('/create', [\App\Http\Controllers\Admin\ContactController::class, 'create'])->name('create');
+            Route::post('/store', [\App\Http\Controllers\Admin\ContactController::class, 'store'])->name('store');
+            Route::get('/{id}/edit', [\App\Http\Controllers\Admin\ContactController::class, 'edit'])->name('edit');
+            Route::put('/{id}', [\App\Http\Controllers\Admin\ContactController::class, 'update'])->name('update');
+            Route::delete('/{id}', [\App\Http\Controllers\Admin\ContactController::class, 'destroy'])->name('destroy');
+        });
+
+        // Method Section (Metode Pembelajaran)
+        Route::prefix('method')->name('method.')->group(function () {
+            Route::get('/', [\App\Http\Controllers\Admin\MethodController::class, 'index'])->name('index');
+            Route::get('/create', [\App\Http\Controllers\Admin\MethodController::class, 'create'])->name('create');
+            Route::post('/store', [\App\Http\Controllers\Admin\MethodController::class, 'store'])->name('store');
+            Route::get('/{id}/edit', [\App\Http\Controllers\Admin\MethodController::class, 'edit'])->name('edit');
+            Route::put('/{id}', [\App\Http\Controllers\Admin\MethodController::class, 'update'])->name('update');
+            Route::delete('/{id}', [\App\Http\Controllers\Admin\MethodController::class, 'destroy'])->name('destroy');
+        });
+
+        // Achievement Section (Pencapaian Siswa)
+        Route::prefix('achievement')->name('achievement.')->group(function () {
+            Route::get('/', [\App\Http\Controllers\Admin\AchievementController::class, 'index'])->name('index');
+            Route::get('/create', [\App\Http\Controllers\Admin\AchievementController::class, 'create'])->name('create');
+            Route::post('/store', [\App\Http\Controllers\Admin\AchievementController::class, 'store'])->name('store');
+            Route::get('/{id}/edit', [\App\Http\Controllers\Admin\AchievementController::class, 'edit'])->name('edit');
+            Route::put('/{id}', [\App\Http\Controllers\Admin\AchievementController::class, 'update'])->name('update');
+            Route::delete('/{id}', [\App\Http\Controllers\Admin\AchievementController::class, 'destroy'])->name('destroy');
+        });
+
+        // Rating Section (Rating Keseluruhan)
+        Route::prefix('rating')->name('rating.')->group(function () {
+            Route::get('/', [\App\Http\Controllers\Admin\RatingController::class, 'index'])->name('index');
+            Route::get('/create', [\App\Http\Controllers\Admin\RatingController::class, 'create'])->name('create');
+            Route::post('/store', [\App\Http\Controllers\Admin\RatingController::class, 'store'])->name('store');
+            Route::get('/{id}/edit', [\App\Http\Controllers\Admin\RatingController::class, 'edit'])->name('edit');
+            Route::put('/{id}', [\App\Http\Controllers\Admin\RatingController::class, 'update'])->name('update');
+            Route::delete('/{id}', [\App\Http\Controllers\Admin\RatingController::class, 'destroy'])->name('destroy');
+        });
+    });
+
     // (removed) Certificate management routes
 });

@@ -76,7 +76,15 @@
                     <span class="ms-3">Laporan User</span>
                 </a>
             </li>
-            
+            <li>
+                <a href="{{ route('admin.landing.index') }}"
+                    class="flex items-center py-2 px-4 {{ request()->routeIs('admin.landing.*') ? 'text-white bg-primary' : 'text-black hover:bg-gray-100' }} rounded-lg group">
+                    <i
+                        class="ri-home-4-line text-[20px] {{ request()->routeIs('admin.landing.*') ? 'text-white' : 'text-black' }}"></i>
+                    <span class="ms-3">Landing Page</span>
+                </a>
+            </li>
+
         </ul>
     </div>
 </aside>

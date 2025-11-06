@@ -12,7 +12,6 @@ class Package extends Model
     protected $guarded = ['package_id'];
     protected $primaryKey = 'package_id';
     protected $casts = [
-        'is_active' => 'boolean',
         'price' => 'decimal:0'
     ];
 
