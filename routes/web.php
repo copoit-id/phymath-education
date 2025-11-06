@@ -1,24 +1,24 @@
 <?php
 
-use App\Http\Controllers\admin\AksesController;
-use App\Http\Controllers\admin\CertificationController;
-use App\Http\Controllers\admin\ClassController;
-use App\Http\Controllers\admin\DashboardController as AdminDashboardController;
-use App\Http\Controllers\admin\DiscussionController;
-use App\Http\Controllers\admin\LaporanController;
-use App\Http\Controllers\admin\LeaderboardController;
-use App\Http\Controllers\admin\PackageController as AdminPackageController;
-use App\Http\Controllers\admin\PembayaranController;
-use App\Http\Controllers\admin\QuestionController;
-use App\Http\Controllers\admin\TryoutController as AdminTryoutController;
-use App\Http\Controllers\admin\UserController;
+use App\Http\Controllers\Admin\AksesController;
+use App\Http\Controllers\Admin\CertificationController;
+use App\Http\Controllers\Admin\ClassController;
+use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Admin\DiscussionController;
+use App\Http\Controllers\Admin\LaporanController;
+use App\Http\Controllers\Admin\LeaderboardController;
+use App\Http\Controllers\Admin\PackageController as AdminPackageController;
+use App\Http\Controllers\Admin\PembayaranController;
+use App\Http\Controllers\Admin\QuestionController;
+use App\Http\Controllers\Admin\TryoutController as AdminTryoutController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LandingPageController;
-use App\Http\Controllers\user\DashboardController;
-use App\Http\Controllers\user\EventController;
-use App\Http\Controllers\user\HelpController;
-use App\Http\Controllers\user\PackageController;
-use App\Http\Controllers\user\TryoutController;
+use App\Http\Controllers\User\DashboardController;
+use App\Http\Controllers\User\EventController;
+use App\Http\Controllers\User\HelpController;
+use App\Http\Controllers\User\PackageController;
+use App\Http\Controllers\User\TryoutController;
 use App\Http\Middleware\AdminMiddleware;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -130,14 +130,14 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', AdminMiddleware::cla
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
 
     // Profile routes
-    Route::get('/profile', [\App\Http\Controllers\admin\ProfileController::class, 'index'])->name('profile.index');
-    Route::put('/profile', [\App\Http\Controllers\admin\ProfileController::class, 'update'])->name('profile.update');
-    Route::put('/profile/password', [\App\Http\Controllers\admin\ProfileController::class, 'updatePassword'])->name('profile.password.update');
+    Route::get('/profile', [\App\Http\Controllers\Admin\ProfileController::class, 'index'])->name('profile.index');
+    Route::put('/profile', [\App\Http\Controllers\Admin\ProfileController::class, 'update'])->name('profile.update');
+    Route::put('/profile/password', [\App\Http\Controllers\Admin\ProfileController::class, 'updatePassword'])->name('profile.password.update');
 
     // Admin User Import Routes
-    Route::get('/user/import', [\App\Http\Controllers\admin\UserImportController::class, 'showImportForm'])->name('user.import');
-    Route::post('/user/import', [\App\Http\Controllers\admin\UserImportController::class, 'import'])->name('user.import.process');
-    Route::get('/user/import/template', [\App\Http\Controllers\admin\UserImportController::class, 'downloadTemplate'])->name('user.import.template');
+    Route::get('/user/import', [\App\Http\Controllers\Admin\UserImportController::class, 'showImportForm'])->name('user.import');
+    Route::post('/user/import', [\App\Http\Controllers\Admin\UserImportController::class, 'import'])->name('user.import.process');
+    Route::get('/user/import/template', [\App\Http\Controllers\Admin\UserImportController::class, 'downloadTemplate'])->name('user.import.template');
     Route::get('/user/import/status/{token}', function (string $token) {
         return response()->json([
             'progress' => cache()->get("import_users:{$token}:progress"),
@@ -185,8 +185,8 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', AdminMiddleware::cla
 
     // Question Import Routes (separated)
     Route::prefix('soal-import')->name('question-import.')->group(function () {
-        Route::get('/{tryout_detail_id}/download-template', [\App\Http\Controllers\admin\QuestionImportController::class, 'downloadTemplate'])->name('download-template');
-        Route::post('/{tryout_detail_id}/import', [\App\Http\Controllers\admin\QuestionImportController::class, 'import'])->name('import');
+        Route::get('/{tryout_detail_id}/download-template', [\App\Http\Controllers\Admin\QuestionImportController::class, 'downloadTemplate'])->name('download-template');
+        Route::post('/{tryout_detail_id}/import', [\App\Http\Controllers\Admin\QuestionImportController::class, 'import'])->name('import');
     });
 
     Route::resource('tryout', AdminTryoutController::class);
