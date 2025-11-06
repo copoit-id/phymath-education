@@ -33,3 +33,64 @@ body {
   font-style: normal;
   @apply bg-background
 }
+
+#hero-section {
+  background-image: url('/img/hero/WEB-PHYMATH.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+  isolation: isolate;
+}
+
+.text-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  perspective: 500px; /* Menambahkan efek 3D */
+  height: 100px;
+}
+
+.curved-text {
+  font-size: 40px;  /* Ukuran font */
+  font-weight: bold;
+  text-align: center;
+  color: black;
+  display: inline-block;
+  transform: rotate(-10deg);  /* Menambahkan rotasi untuk memberi efek lengkung */
+  transform-origin: center;  /* Setel titik rotasi di tengah */
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center rounded-full font-semibold transition-all duration-300 border border-transparent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-dark;
+  }
+
+  .btn-sm {
+    @apply px-6 py-2 text-sm;
+  }
+
+  .btn-md {
+    @apply px-8 py-3 text-base;
+  }
+
+  .btn-lg {
+    @apply px-8 py-4 text-lg;
+  }
+
+  .btn-primary {
+    @apply bg-green-dark text-white border-green-dark hover:bg-green-700 hover:border-green-700;
+  }
+
+  .btn-secondary {
+    @apply bg-white text-green-dark border-green-dark hover:bg-green-dark hover:text-white;
+  }
+
+  .btn-outline-light {
+    @apply border-2 border-white text-white hover:bg-white hover:text-green-dark;
+  }
+
+  .btn-dark {
+    @apply bg-gray-900 text-white border-gray-900 hover:bg-green-dark hover:border-green-dark;
+  }
+}
