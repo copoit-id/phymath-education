@@ -163,7 +163,7 @@
                             {{ $item->card_description }}
                         </p>
                     </div>
-                    <div class="w-full h-2 bg-green-dark rounded-b-lg"></div>
+                    <div class="absolute bottom-0 w-full h-2 bg-green-dark rounded-b-lg"></div>
                     <div>
                         <img src="{{asset('img/components/top-right.png')}}" alt="" class="w-12 absolute top-0 right-0">
                     </div>
