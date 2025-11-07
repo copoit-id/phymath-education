@@ -59,7 +59,7 @@ class HeroController extends Controller
 
         LandingpageHero::create($data);
 
-        return redirect()->route('admin.hero.index')->with('success', 'Hero section berhasil ditambahkan.');
+        return redirect()->route('admin.landing.hero.index')->with('success', 'Hero section berhasil ditambahkan.');
     }
 
     public function edit($id)
@@ -100,7 +100,7 @@ class HeroController extends Controller
 
         $hero->update($data);
 
-        return redirect()->route('admin.hero.index')->with('success', 'Hero section berhasil diupdate.');
+        return redirect()->route('admin.landing.hero.index')->with('success', 'Hero section berhasil diupdate.');
     }
 
     public function destroy($id)
@@ -113,6 +113,6 @@ class HeroController extends Controller
 
         $hero->delete();
 
-        return redirect()->route('admin.hero.index')->with('success', 'Hero section berhasil dihapus.');
+        return redirect()->route('admin.landing.hero.index')->with('success', 'Hero section berhasil dihapus.');
     }
 }
