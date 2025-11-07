@@ -10,17 +10,32 @@ class RatingController extends Controller
 {
     public function index()
     {
-        $ratings = LandingpageRating::orderBy('created_at', 'desc')->get();
-        return view('admin.landing.rating.index', compact('ratings'));
+        $rating = LandingpageRating::first();
+
+        return view('admin.landing.rating.index', compact('rating'));
     }
 
     public function create()
     {
+        if (LandingpageRating::exists()) {
+            $rating = LandingpageRating::first();
+
+            return redirect()
+                ->route('admin.landing.rating.edit', $rating->id)
+                ->with('info', 'Rating sudah ada. Anda dapat mengedit data yang tersedia.');
+        }
+
         return view('admin.landing.rating.create');
     }
 
     public function store(Request $request)
     {
+        if (LandingpageRating::exists()) {
+            return redirect()
+                ->route('admin.landing.rating.index')
+                ->with('info', 'Rating sudah tersedia. Silakan edit data yang ada.');
+        }
+
         $data = $request->validate([
             'category' => 'required|string|max:255',
             'rating_value' => 'required|numeric|min:0|max:5',
