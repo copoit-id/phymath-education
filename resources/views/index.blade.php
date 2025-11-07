@@ -13,7 +13,7 @@
 <body class="landing">
     <nav class="relative flex items-center justify-between py-4 px-[30px] md:px-[100px] lg:px-[250px] bg-[#FFFFFF]">
         <a href="#hero-section" class="flex items-center gap-3">
-            <img src="{{ asset('img/logo/logo_wide.png') }}" alt="Phymath Education" class="h-10 w-auto">
+            <img src="{{ asset('img/logo/logo.png') }}" alt="Phymath Education" class="h-10 w-auto">
         </a>
         <button id="mobile-menu-button"
             class="md:hidden flex flex-col gap-1.5 p-2 rounded-lg border border-green-dark text-green-dark"
@@ -49,7 +49,7 @@
         <div id="mobile-menu-panel"
             class="relative h-full w-72 max-w-[80vw] bg-white px-6 py-8 shadow-xl -translate-x-full transition-transform duration-200">
             <div class="flex items-center justify-between mb-10">
-                <img src="{{ asset('img/logo/logo_wide.png') }}" alt="Phymath Education" class="h-8 w-auto">
+                <img src="{{ asset('img/logo/logo.png') }}" alt="Phymath Education" class="h-8 w-auto">
                 <button class="p-2 rounded-md border border-gray-200" data-close="mobile-menu"
                     aria-label="Tutup menu navigasi">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none"
@@ -556,7 +556,7 @@
     <footer id="footer" class="bg-green-dark text-white py-[80px] px-[30px] md:px-[100px] lg:px-[250px]">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
             <div>
-                <img src="{{ asset('img/logo/logo_wide.png') }}" alt="Phymath Education" class="h-10 w-auto">
+                <img src="{{ asset('img/logo/logo.png') }}" alt="Phymath Education" class="h-10 w-auto">
                 <p class="mt-4 text-sm leading-relaxed text-white/80">
                     Phymath Education menghadirkan pengalaman belajar personal dengan tutor profesional, materi terkini, dan dukungan penuh untuk mencapai target akademik terbaik.
                 </p>
