@@ -55,8 +55,39 @@
                     <label for="description" class="block text-sm font-medium text-gray-700 mb-2">Description <span class="text-red-500">*</span></label>
                     <textarea id="description" name="description" rows="4" required
                               class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary {{ $errors->has('description') ? 'border-red-500' : 'border-gray-300' }}"
-                              placeholder="Deskripsi keunggulan">{{ old('description') }}</textarea>
+                              placeholder="Deskripsi singkat section Why Us">{{ old('description') }}</textarea>
                     @error('description')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="card_title" class="block text-sm font-medium text-gray-700 mb-2">Card Title <span class="text-red-500">*</span></label>
+                        <input type="text" id="card_title" name="card_title" value="{{ old('card_title') }}" required
+                               class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary {{ $errors->has('card_title') ? 'border-red-500' : 'border-gray-300' }}"
+                               placeholder="Judul pada kartu (contoh: Metode AI-Powered)">
+                        @error('card_title')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+                    <div>
+                        <label for="order" class="block text-sm font-medium text-gray-700 mb-2">Order</label>
+                        <input type="number" id="order" name="order" value="{{ old('order') }}"
+                               class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary {{ $errors->has('order') ? 'border-red-500' : 'border-gray-300' }}"
+                               placeholder="Urutan tampil (opsional)">
+                        @error('order')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+                </div>
+
+                <div>
+                    <label for="card_description" class="block text-sm font-medium text-gray-700 mb-2">Card Description <span class="text-red-500">*</span></label>
+                    <textarea id="card_description" name="card_description" rows="4" required
+                              class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary {{ $errors->has('card_description') ? 'border-red-500' : 'border-gray-300' }}"
+                              placeholder="Deskripsi detail yang tampil pada kartu">{{ old('card_description') }}</textarea>
+                    @error('card_description')
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                     @enderror
                 </div>

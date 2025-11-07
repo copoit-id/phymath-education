@@ -25,7 +25,7 @@
 
     <!-- Edit Form -->
     <div class="bg-white rounded-lg border border-gray-200">
-        <form action="{{ route('admin.landing.subject.update', $subject->id) }}" method="POST">
+        <form action="{{ route('admin.landing.subject.update', $subject->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div class="p-6 space-y-6">

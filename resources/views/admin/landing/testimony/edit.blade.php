@@ -41,22 +41,22 @@
                         @enderror
                     </div>
                     <div>
-                        <label for="position" class="block text-sm font-medium text-gray-700 mb-2">Position <span class="text-red-500">*</span></label>
-                        <input type="text" id="position" name="position" value="{{ old('position', $testimony->position) }}" required
-                               class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary {{ $errors->has('position') ? 'border-red-500' : 'border-gray-300' }}"
-                               placeholder="e.g., Student, Teacher, Parent">
-                        @error('position')
+                        <label for="school" class="block text-sm font-medium text-gray-700 mb-2">Sekolah / Posisi <span class="text-red-500">*</span></label>
+                        <input type="text" id="school" name="school" value="{{ old('school', $testimony->school) }}" required
+                               class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary {{ $errors->has('school') ? 'border-red-500' : 'border-gray-300' }}"
+                               placeholder="Contoh: SMA 1 Jakarta, Orang Tua Siswa, dll">
+                        @error('school')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
                 </div>
 
                 <div>
-                    <label for="testimonial" class="block text-sm font-medium text-gray-700 mb-2">Testimonial <span class="text-red-500">*</span></label>
-                    <textarea id="testimonial" name="testimonial" rows="4" required
-                              class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary {{ $errors->has('testimonial') ? 'border-red-500' : 'border-gray-300' }}"
-                              placeholder="Masukkan testimoni customer">{{ old('testimonial', $testimony->testimonial) }}</textarea>
-                    @error('testimonial')
+                    <label for="message" class="block text-sm font-medium text-gray-700 mb-2">Testimonial <span class="text-red-500">*</span></label>
+                    <textarea id="message" name="message" rows="4" required
+                              class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary {{ $errors->has('message') ? 'border-red-500' : 'border-gray-300' }}"
+                              placeholder="Masukkan testimoni customer">{{ old('message', $testimony->message) }}</textarea>
+                    @error('message')
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                     @enderror
                 </div>

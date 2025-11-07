@@ -69,8 +69,8 @@
                         <label for="is_active" class="block text-sm font-medium text-gray-700 mb-2">Status</label>
                         <select id="is_active" name="is_active"
                                 class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary {{ $errors->has('is_active') ? 'border-red-500' : 'border-gray-300' }}">
-                            <option value="1" {{ old('is_active', $rating->is_active) == '1' ? 'selected' : '' }}>Aktif</option>
-                            <option value="0" {{ old('is_active', $rating->is_active) == '0' ? 'selected' : '' }}>Tidak Aktif</option>
+                            <option value="1" {{ old('is_active', $rating->is_active ? '1' : '0') == '1' ? 'selected' : '' }}>Aktif</option>
+                            <option value="0" {{ old('is_active', $rating->is_active ? '1' : '0') == '0' ? 'selected' : '' }}>Tidak Aktif</option>
                         </select>
                         @error('is_active')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>

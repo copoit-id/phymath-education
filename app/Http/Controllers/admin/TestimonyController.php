@@ -22,16 +22,17 @@ class TestimonyController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
+        $data = $request->validate([
             'name' => 'required|string|max:255',
             'school' => 'required|string|max:255',
             'message' => 'required|string',
             'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'rating' => 'required|integer|min:1|max:5',
             'order' => 'nullable|integer',
+            'is_active' => 'nullable|boolean',
         ]);
 
-        $data = $request->all();
+        $data['is_active'] = $request->boolean('is_active', true);
 
         if ($request->hasFile('photo')) {
             $data['photo'] = $request->file('photo')->store('testimonies', 'public');
@@ -39,7 +40,8 @@ class TestimonyController extends Controller
 
         LandingpageTestimony::create($data);
 
-        return redirect()->route('admin.testimony.index')->with('success', 'Testimony berhasil ditambahkan.');
+        return redirect()->route('admin.landing.testimony.index')
+            ->with('success', 'Testimony berhasil ditambahkan.');
     }
 
     public function edit($id)
@@ -52,16 +54,17 @@ class TestimonyController extends Controller
     {
         $testimony = LandingpageTestimony::findOrFail($id);
 
-        $request->validate([
+        $data = $request->validate([
             'name' => 'required|string|max:255',
             'school' => 'required|string|max:255',
             'message' => 'required|string',
             'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'rating' => 'required|integer|min:1|max:5',
             'order' => 'nullable|integer',
+            'is_active' => 'nullable|boolean',
         ]);
 
-        $data = $request->all();
+        $data['is_active'] = $request->boolean('is_active', true);
 
         if ($request->hasFile('photo')) {
             if ($testimony->photo) {
@@ -72,7 +75,8 @@ class TestimonyController extends Controller
 
         $testimony->update($data);
 
-        return redirect()->route('admin.testimony.index')->with('success', 'Testimony berhasil diupdate.');
+        return redirect()->route('admin.landing.testimony.index')
+            ->with('success', 'Testimony berhasil diupdate.');
     }
 
     public function destroy($id)
@@ -85,6 +89,7 @@ class TestimonyController extends Controller
 
         $testimony->delete();
 
-        return redirect()->route('admin.testimony.index')->with('success', 'Testimony berhasil dihapus.');
+        return redirect()->route('admin.landing.testimony.index')
+            ->with('success', 'Testimony berhasil dihapus.');
     }
 }

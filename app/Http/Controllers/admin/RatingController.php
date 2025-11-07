@@ -10,8 +10,8 @@ class RatingController extends Controller
 {
     public function index()
     {
-        $rating = LandingpageRating::first();
-        return view('admin.landing.rating.index', compact('rating'));
+        $ratings = LandingpageRating::orderBy('created_at', 'desc')->get();
+        return view('admin.landing.rating.index', compact('ratings'));
     }
 
     public function create()
@@ -21,14 +21,15 @@ class RatingController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'overall_rating' => 'required|numeric|min:0|max:5',
+        $data = $request->validate([
+            'category' => 'required|string|max:255',
+            'rating_value' => 'required|numeric|min:0|max:5',
             'total_reviews' => 'required|integer|min:0',
             'description' => 'nullable|string',
+            'is_active' => 'nullable|boolean',
         ]);
 
-        $data = $request->all();
-        $data['is_active'] = $request->has('is_active');
+        $data['is_active'] = $request->boolean('is_active', true);
 
         LandingpageRating::create($data);
 
@@ -45,14 +46,15 @@ class RatingController extends Controller
     {
         $rating = LandingpageRating::findOrFail($id);
 
-        $request->validate([
-            'overall_rating' => 'required|numeric|min:0|max:5',
+        $data = $request->validate([
+            'category' => 'required|string|max:255',
+            'rating_value' => 'required|numeric|min:0|max:5',
             'total_reviews' => 'required|integer|min:0',
             'description' => 'nullable|string',
+            'is_active' => 'nullable|boolean',
         ]);
 
-        $data = $request->all();
-        $data['is_active'] = $request->has('is_active');
+        $data['is_active'] = $request->boolean('is_active', true);
 
         $rating->update($data);
 

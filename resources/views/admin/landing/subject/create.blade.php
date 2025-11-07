@@ -25,7 +25,7 @@
 
     <!-- Create Form -->
     <div class="bg-white rounded-lg border border-gray-200">
-        <form action="{{ route('admin.landing.subject.store') }}" method="POST">
+        <form action="{{ route('admin.landing.subject.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="p-6 space-y-6">
                 <!-- Basic Info -->
