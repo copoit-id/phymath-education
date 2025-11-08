@@ -150,9 +150,10 @@
         <!-- Modal for Multiple Subtests (SKD Full, Certification Full, PPPK Full, etc.) -->
         @if ($tryout->tryoutDetails->count() > 1)
         <div id="modal-{{ $tryout->tryout_id }}" tabindex="-1" aria-hidden="true"
-            class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-            <div class="relative p-4 w-full max-w-2xl max-h-full">
-                <div class="relative bg-white rounded-lg shadow">
+            class="hidden fixed inset-0 z-50 overflow-y-auto overflow-x-hidden">
+            <div class="flex min-h-full items-center justify-center p-4">
+                <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" data-modal-hide="modal-{{ $tryout->tryout_id }}"></div>
+                <div class="relative z-10 w-full max-w-2xl max-h-full bg-white rounded-2xl shadow-xl border border-gray-100">
                     <div class="flex items-center justify-between p-4 md:p-5 border-b border-border rounded-t">
                         <h3 class="text-xl font-semibold text-gray-900">
                             Pilih Subtest - {{ $tryout->name }}
