@@ -22,7 +22,7 @@ class SubjectController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
+        $data = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'icon' => 'nullable|string|max:255',
@@ -30,8 +30,8 @@ class SubjectController extends Controller
             'order' => 'nullable|integer',
         ]);
 
-        $data = $request->all();
-        $data['is_active'] = $request->has('is_active');
+        $data['order'] = $data['order'] ?? (LandingpageSubject::max('order') + 1);
+        $data['is_active'] = $request->boolean('is_active', true);
 
         if ($request->hasFile('image')) {
             $data['image'] = $request->file('image')->store('subjects', 'public');
@@ -52,7 +52,7 @@ class SubjectController extends Controller
     {
         $subject = LandingpageSubject::findOrFail($id);
 
-        $request->validate([
+        $data = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'icon' => 'nullable|string|max:255',
@@ -60,8 +60,8 @@ class SubjectController extends Controller
             'order' => 'nullable|integer',
         ]);
 
-        $data = $request->all();
-        $data['is_active'] = $request->has('is_active');
+        $data['order'] = $data['order'] ?? $subject->order ?? (LandingpageSubject::max('order') + 1);
+        $data['is_active'] = $request->boolean('is_active', true);
 
         if ($request->hasFile('image')) {
             if ($subject->image) {
