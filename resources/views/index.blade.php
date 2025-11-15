@@ -526,7 +526,7 @@
         </section>
         @endif
         @if($testimonies->count() > 0)
-        <section id="testimony-section" class="bg-[#FFFFFF] w-full py-20 px-[30px] md:px-[100px] lg:px-[250px]">
+        <section id="testimony-section" class="bg-[#FFFFFF] w-full py-20 px-[30px] md:px-[50px] lg:px-[250px]">
             <div class="text-center max-w-4xl mx-auto mb-16">
                 <h2 class="text-3xl md:text-4xl font-bold text-green-dark mb-6">
                     Apa Kata Mereka Selama Belajar Bersama<br>
