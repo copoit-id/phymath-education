@@ -21,15 +21,18 @@ class FaqController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
+        $data = $request->validate([
             'question' => 'required|string|max:255',
             'answer' => 'required|string',
             'order' => 'nullable|integer',
+            'is_active' => 'nullable|boolean',
         ]);
 
-        LandingpageFaq::create($request->all());
+        $data['is_active'] = $request->boolean('is_active', true);
 
-        return redirect()->route('admin.faq.index')->with('success', 'FAQ berhasil ditambahkan.');
+        LandingpageFaq::create($data);
+
+        return redirect()->route('admin.landing.faq.index')->with('success', 'FAQ berhasil ditambahkan.');
     }
 
     public function edit($id)
@@ -42,15 +45,18 @@ class FaqController extends Controller
     {
         $faq = LandingpageFaq::findOrFail($id);
 
-        $request->validate([
+        $data = $request->validate([
             'question' => 'required|string|max:255',
             'answer' => 'required|string',
             'order' => 'nullable|integer',
+            'is_active' => 'nullable|boolean',
         ]);
 
-        $faq->update($request->all());
+        $data['is_active'] = $request->boolean('is_active', true);
 
-        return redirect()->route('admin.faq.index')->with('success', 'FAQ berhasil diupdate.');
+        $faq->update($data);
+
+        return redirect()->route('admin.landing.faq.index')->with('success', 'FAQ berhasil diupdate.');
     }
 
     public function destroy($id)
@@ -58,6 +64,6 @@ class FaqController extends Controller
         $faq = LandingpageFaq::findOrFail($id);
         $faq->delete();
 
-        return redirect()->route('admin.faq.index')->with('success', 'FAQ berhasil dihapus.');
+        return redirect()->route('admin.landing.faq.index')->with('success', 'FAQ berhasil dihapus.');
     }
 }
