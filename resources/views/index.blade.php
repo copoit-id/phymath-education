@@ -156,7 +156,20 @@
                 <div class="card relative group bg-gray-50 rounded-lg hover:bg-white transition-all duration-300 border border-gray-200">
                     <div class="p-8">
                         <div class="w-12 h-12 bg-green-dark rounded-lg flex items-center justify-center text-white text-xl mb-6">
-                            {{ $item->icon }}
+                            @php
+                                $iconValue = trim($item->icon ?? '');
+                                $shouldPrefix = $iconValue && !str_starts_with($iconValue, 'ri-') && preg_match('/^[a-z0-9-]+$/i', $iconValue);
+                                $iconClass = $shouldPrefix ? 'ri-' . $iconValue : $iconValue;
+                            @endphp
+                            @if($iconClass)
+                                @if(str_starts_with($iconClass, 'ri-'))
+                                    <i class="{{ $iconClass }}"></i>
+                                @else
+                                    {{ $iconClass }}
+                                @endif
+                            @else
+                                <i class="ri-star-smile-line"></i>
+                            @endif
                         </div>
                         <h3 class="text-xl font-bold text-gray-900 mb-4">{{ $item->card_title }}</h3>
                         <p class="text-base text-gray-600 leading-relaxed">
@@ -215,9 +228,22 @@
                 @foreach($subjects as $subject)
                 <div class="group relative bg-white rounded-lg border border-gray-200 hover:border-green-dark transition-all duration-300 overflow-hidden">
                     <div class="relative p-8 text-center">
-                        @if($subject->icon)
-                        <div class="text-4xl mb-4">{{ $subject->icon }}</div>
-                        @endif
+                        @php
+                            $subjectIcon = trim($subject->icon ?? '');
+                            $shouldPrefixSubject = $subjectIcon && !str_starts_with($subjectIcon, 'ri-') && preg_match('/^[a-z0-9-]+$/i', $subjectIcon);
+                            $subjectIconClass = $shouldPrefixSubject ? 'ri-' . $subjectIcon : $subjectIcon;
+                        @endphp
+                        <div class="text-4xl mb-4">
+                            @if($subjectIconClass)
+                                @if(str_starts_with($subjectIconClass, 'ri-'))
+                                    <i class="{{ $subjectIconClass }}"></i>
+                                @else
+                                    {{ $subjectIconClass }}
+                                @endif
+                            @else
+                                <i class="ri-book-open-line"></i>
+                            @endif
+                        </div>
                         <h3 class="text-xl font-bold text-gray-900 mb-4">{{ $subject->title }}</h3>
                         <p class="text-base text-gray-600 mb-6">{{ $subject->description }}</p>
                     </div>
